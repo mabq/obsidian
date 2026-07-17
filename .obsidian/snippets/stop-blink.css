@@ -1,0 +1,6 @@
+/* Stop the cursor from blinking in Obsidian editor */
+.cm-cursor,
+.cm-dropCursor {
+  animation: none !important;
+  opacity: 1 !important;
+}
