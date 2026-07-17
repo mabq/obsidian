@@ -11,13 +11,32 @@
             "id": "9cad164aa9157598",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "glossary/partition.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "partition"
+            }
+          },
+          {
+            "id": "4a4d728cff13248e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "glossary/partition.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "partition"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -90,6 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "glossary/partition.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for partition"
             }
           },
           {
@@ -176,12 +196,15 @@
       "bases:Create new base": false
     }
   },
-  "active": "9cad164aa9157598",
+  "active": "4a4d728cff13248e",
   "lastOpenFiles": [
-    "nixos-installation.md",
-    "glossary/firmware.md",
-    "glossary/disk-partitions.md",
     "glossary/filesystem.md",
+    "glossary/partition.md",
+    "glossary/vfs.md",
+    "glossary/firmware.md",
+    "guides/disk-setup.md",
+    "guides",
+    "nixos-installation.md",
     "ext4.md",
     "README.md",
     "glossary",

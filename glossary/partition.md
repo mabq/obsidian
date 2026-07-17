@@ -1,4 +1,10 @@
-# Disk partitions
+# Disk partition
+
+Partitioning a disk allows you to have virtual divisions on a single physical disk appearing as multiple independent drives.
+
+Each partition has its own filesystem, which can be mounted
+
+Partitioning a disk allows you to have virtual divisions on a single physical disk appearing as multiple independent drives. 
 
 ## Partition table
 
@@ -20,11 +26,11 @@ Two options:
 
 ## Partitions
 
-Partitions are virtual divisions on a single physical disk appearing as multiple independent drives. 
 
 Each partition has its own [[filesystem]].
 
 ## Actions
+
 #### Delete data fast (not securely)
 
 If _you_ (not someone else!) plan to reuse a disk for a fresh installation or a new LVM/RAID setup, execute:
