@@ -1,0 +1,23 @@
+{
+  "list-new-line": {
+    "__patch": true
+  },
+  "sync-system-clipboard": {
+    "__patch": true,
+    "yank-to-clipboard": true,
+    "paste-from-clipboard": true
+  },
+  "yank-highlight": {
+    "__patch": true,
+    "highlightDuration": 100,
+    "fadeDuration": 0
+  },
+  "visual-line-motions": {
+    "__patch": true,
+    "jk": true,
+    "0$": true,
+    "_": true,
+    "I-A": true,
+    "V": true
+  }
+}

@@ -8,35 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "9cad164aa9157598",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "glossary/partition.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "partition"
-            }
-          },
-          {
             "id": "4a4d728cff13248e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "glossary/partition.md",
+                "file": "glossary/disk-partitions.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "partition"
+              "title": "disk-partitions"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -109,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "glossary/partition.md",
+                "file": "glossary/disk-partitions.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for partition"
+              "title": "Backlinks for disk-partitions"
             }
           },
           {
@@ -193,15 +178,16 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "4a4d728cff13248e",
   "lastOpenFiles": [
-    "glossary/filesystem.md",
-    "glossary/partition.md",
-    "glossary/vfs.md",
     "glossary/firmware.md",
+    "glossary/disk-partitions.md",
+    "glossary/on-disk-filesystem.md",
+    "glossary/virtual-file-system.md",
     "guides/disk-setup.md",
     "guides",
     "nixos-installation.md",

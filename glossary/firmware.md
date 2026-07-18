@@ -2,21 +2,26 @@
 
 Low-level software embedded in hardware that controls basic device functions.
 
-> [!info]
+> [!tip]
 > Buy hardware from "trusted" brands and hope for the best.
 >
 > Firmware is the very first code to execute on the system — runs in privileged mode on the main CPU with full access to all RAM.
 >
-> Closed-source firmware (most UEFI, BIOS, SSD, GPU, etc.) creates serious trust and supply-chain risks — companies can hide backdoors, bugs, or intentional flaws with no audit. Many experts consider it one of the biggest security weaknesses in modern PCs.
+> Closed-source firmware (almost all UEFI, BIOS, SSD, GPU, etc.) creates serious trust and supply-chain risks — companies can hide backdoors, bugs, or intentional flaws with no audit. Many experts consider it one of the biggest security weaknesses in modern PCs.
 > 
-> For more information read [Firmware Security Risks](https://en.wikipedia.org/wiki/Firmware#Security_risks).
+> More info in [Firmware Security Risks](https://en.wikipedia.org/wiki/Firmware#Security_risks) (Wikipedia).
 
 ## Motherboard firmware
 
-Two options: UEFI or BIOS (legacy).
+Two options:
 
-> [!tip]
-> UEFI if `/sys/firmware/efi` exists.
+- UEFI (Unified Extensible Firmware Interface)
+- Legacy BIOS
+
+> [!info]
+> No new computers ship with legacy BIOS firmware. But the terms "BIOS" and "UEFI" are often used interchangeably, which is a common point of confusion.
+>
+> To verify check `/sys/firmware/efi` — a directory that only exists in UEFI systems.
 
 [Coreboot](https://www.coreboot.org/end_users.html) is an open-source alternative (not yet used by major brands).
 
