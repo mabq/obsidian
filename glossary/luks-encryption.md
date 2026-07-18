@@ -8,11 +8,11 @@ LUKS (Linux Unified Key Setup) defines a standard on-disk format that integrates
 > These commands delete data.
 
 > [!info]
-> In the example commands below, replace `/dev/sdXN` with the device node of the device block you want to encrypt (see [[virtual-file-system|virtual file system]]).
+> In the example commands below, replace `/dev/sdXN` with the device node of the block device you want to encrypt (see [[virtual-file-system|virtual file system]]).
 >
 > Always double check the device node with `lsblk` before pressing enter.
 
-First, apply LUKS format to block device. This steps creates the LUKS header and sets up your passphrase (can be changed if needed). It uses LUKS2 by default on modern systems.
+First, apply the LUKS format to the block device. This steps creates the LUKS header and sets up your passphrase (can be changed if needed). It uses LUKS2 by default on modern systems.
 
 ```sh
 # Type YES in all caps to confirm and enter your passphrase when prompted
@@ -26,7 +26,9 @@ sudo cryptsetup open /dev/sdXN <NAME>
 ```
 
 >[!info]
->When you open the encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>`. When you read from or write to this block device, the kernel decrypts/encrypts the data on the fly transparently. This unlocked block device is what you actually format with a filesystem and mount to your system. 
+>When you open the encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>`. When you read from or write to this block device, the kernel decrypts/encrypts the data on the fly transparently.
+>
+>This virtual, unlocked block device is what you actually format with a filesystem and mount to your system. 
 
 Now, format the virtual, unlocked block device — use whatever filesystem you want.
 	
