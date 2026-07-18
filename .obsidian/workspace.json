@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "glossary/virtual-file-system.md",
+                "file": "glossary/luks-encryption.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "virtual-file-system"
+              "title": "luks-encryption"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "glossary/virtual-file-system.md",
+                "file": "glossary/luks-encryption.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for virtual-file-system"
+              "title": "Backlinks for luks-encryption"
             }
           },
           {
@@ -184,11 +184,11 @@
   },
   "active": "4a4d728cff13248e",
   "lastOpenFiles": [
-    "glossary/block-device-node.md",
-    "glossary/luks-encryption.md",
-    "glossary/on-disk-filesystem.md",
     "glossary/virtual-file-system.md",
+    "glossary/luks-encryption.md",
+    "glossary/disk-filesystem.md",
     "glossary/disk-partitions.md",
+    "glossary/block-device-node.md",
     "glossary/firmware.md",
     "guides/disk-setup.md",
     "guides",

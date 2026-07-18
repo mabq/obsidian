@@ -1,40 +1,40 @@
 # Luks encryption
 
-LUKS (Linux Unified Key Setup) is the standard specification for hard disk encryption on Linux. 
+LUKS (Linux Unified Key Setup) defines a standard on-disk format that integrates seamlessly with Linux tools to encrypt entire block devices — like partitions, full hard drives, or USB sticks.
 
-Instead of being a standalone program, it defines a standard on-disk format that integrates seamlessly with Linux tools to encrypt entire block devices — like partitions, full hard drives, or USB sticks.
+## How to encrypting a block device
 
-
-### How to encrypting a block device
-
-> [!warning]
-> This process deletes any current filesystem in the block device. Always double-check the device node with `lsblk` before pressing enter!
-
-First, initialize the LUKS partition. This steps creates the LUKS header and sets up your passphrase. It uses LUKS2 by default on modern systems.
-
-```sh
-sudo cryptsetup luksFormat /dev/sdXN
-# Type YES in all caps to confirm, then enter your passphrase
-```
+> [!danger]
+> These commands delete data.
 
 > [!info]
-> You can change the passphare afterwards if you need to.
+> In the example commands below, replace `/dev/sdXN` with the device node of the device block you want to encrypt (see [[virtual-file-system|virtual file system]]).
+>
+> Always double check the device node with `lsblk` before pressing enter.
 
-Open the encrypted device. The block device remains encrypted, so Linux creates a virtual blocked device (`/dev/mapper/<NAME>`) for you to interact with — read [[#The Two Distinct Layers]] below.
+First, apply LUKS format to block device. This steps creates the LUKS header and sets up your passphrase (can be changed if needed). It uses LUKS2 by default on modern systems.
 
 ```sh
-# Replace `<NAME>` with whatever name you want to give to the virtual unlocked device
+# Type YES in all caps to confirm and enter your passphrase when prompted
+sudo cryptsetup luksFormat /dev/sdXN
+```
+
+Then, open the encrypted block device — replace `<NAME>` with whatever name you want.
+
+```sh
 sudo cryptsetup open /dev/sdXN <NAME>
 ```
 
-Now that the device is unlocked and mapped, format the virtual unlocked device (not the raw partition) with a filesystem.
+>[!info]
+>When you open the encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>`. When you read from or write to this block device, the kernel decrypts/encrypts the data on the fly transparently. This unlocked block device is what you actually format with a filesystem and mount to your system. 
+
+Now, format the virtual, unlocked block device — use whatever filesystem you want.
 	
 ```sh
-# Use whatever files system you want
 sudo mkfs.<FILESYSTEM> /dev/mapper/<NAME>
 ```
 
-Finally, create a mount point and mount the virtual unlocked device just like a regular drive.
+Finally, create a mount point and mount the virtual, unlocked block device just like a regular drive.
 
 ```sh
 sudo mkdir -p /mnt/secure
@@ -43,7 +43,8 @@ sudo mount /dev/mapper/<NAME> /mnt/secure
 
 Done!
 
-### How to safely close the drive
+
+## Safely close the virtual, unlocked block device
 
 When you are done using the drive, you need to unmount the filesystem and lock the LUKS container to secure the data again.
 
@@ -55,22 +56,4 @@ sudo umount /mnt/secure
 sudo cryptsetup close <NAME>
 ```
 
-Now the virtual device under `/dev/mapper/<NAME>` vanishes, and the data is completely locked away until the next time you run `cryptsetup open`.
-
----
-
-### The Two Distinct Layers
-
-When you open an encrypted LUKS partition, you are interacting with two completely different representations of the same storage space: the raw, locked hardware and the virtual, unlocked interface.
-
-Because they do two entirely different jobs, Linux gives them two separate device nodes.
-
-
-
-
-
-
-
-
-
-
+Now the virtual, unlocked device under `/dev/mapper/<NAME>` vanishes, and the data is completely locked away until the next time you run `cryptsetup open`.

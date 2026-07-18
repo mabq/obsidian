@@ -11,7 +11,7 @@ To create partitions, a small amount of space at the very beginning (or end) of 
 >
 > Disks with no partition table might be flagged as "uninitialized" or empty by operating systems, causing confusion that may lead a user to format the disk, destroying its data.
 >
-> Creating a [[on-disk-filesystem|filesystem]] directly on a raw unpartitioned disk is possible, but only recommended for disks aimed to be used in storage pools (ZFS / Btrfs / LVM) or in cloud or VM environments.
+> Creating a [[disk-filesystem|filesystem]] directly on a raw unpartitioned disk is possible, but only recommended for disks aimed to be used in storage pools (ZFS / Btrfs / LVM) or in cloud or VM environments.
 
 The two common standards are:
 
@@ -30,7 +30,7 @@ Hex-codes marking the purpose of each partition in the partition table — used 
 > [!info]
 > The same way you can fill a jar labeled "sugar" with salt, you can fill a partition with completely different content than the one specified in its partition table.
 >
-> The real content of a partition is the data contained in its [[on-disk-filesystem|filesystem]].
+> The real content of a partition is the data contained in its [[disk-filesystem|filesystem]].
 
 > [!info]
 > GPT and MBR use different hex-codes for the same partition types — partition tools normally abstract this.
