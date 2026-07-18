@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "glossary/disk-partitions.md",
+                "file": "glossary/virtual-file-system.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "disk-partitions"
+              "title": "virtual-file-system"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "glossary/disk-partitions.md",
+                "file": "glossary/virtual-file-system.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for disk-partitions"
+              "title": "Backlinks for virtual-file-system"
             }
           },
           {
@@ -184,10 +184,12 @@
   },
   "active": "4a4d728cff13248e",
   "lastOpenFiles": [
-    "glossary/firmware.md",
-    "glossary/disk-partitions.md",
+    "glossary/block-device-node.md",
+    "glossary/luks-encryption.md",
     "glossary/on-disk-filesystem.md",
     "glossary/virtual-file-system.md",
+    "glossary/disk-partitions.md",
+    "glossary/firmware.md",
     "guides/disk-setup.md",
     "guides",
     "nixos-installation.md",
