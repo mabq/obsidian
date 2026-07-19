@@ -1,5 +1,9 @@
 {
-  "cssTheme": "Tokyo Night",
+  "cssTheme": "Atom",
   "baseFontSize": 14,
-  "baseFontSizeAction": false
+  "baseFontSizeAction": false,
+  "nativeMenus": false,
+  "enabledCssSnippets": [
+    "stop-blink"
+  ]
 }

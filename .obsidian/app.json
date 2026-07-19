@@ -4,5 +4,6 @@
   "livePreview": false,
   "vimMode": true,
   "showIndentGuide": false,
-  "showInlineTitle": false
+  "showInlineTitle": false,
+  "defaultViewMode": "preview"
 }

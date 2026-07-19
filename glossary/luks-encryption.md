@@ -2,60 +2,57 @@
 
 LUKS (Linux Unified Key Setup) defines a standard on-disk format that integrates seamlessly with Linux tools to encrypt entire block devices — like partitions, full hard drives, or USB sticks.
 
-## How to encrypting a block device
-
-> [!danger]
-> These commands delete data.
-
 > [!info]
-> In the example commands below, replace `/dev/sdXN` with the device node of the block device you want to encrypt (see [[virtual-file-system|virtual file system]]).
->
-> Always double check the device node with `lsblk` before pressing enter.
+> In examples below, replace `/dev/sdXN` with a proper device node.
 
-First, apply the LUKS format to the block device. This steps creates the LUKS header and sets up your passphrase (can be changed if needed). It uses LUKS2 by default on modern systems.
+## Encrypt a block device
+
+All you need to do to encrypt a block device is to format it with LUKS — this steps creates the LUKS header and sets up your passphrase. It uses LUKS2 by default on modern systems.
 
 ```sh
-# Type YES in all caps to confirm and enter your passphrase when prompted
+# ⚠️ Double check the device node before pressing Enter!
 sudo cryptsetup luksFormat /dev/sdXN
 ```
 
-Then, open the encrypted block device — replace `<NAME>` with whatever name you want.
+When prompted, type "YES" in all caps to confirm and then enter your decryption passphrase (can be changed later).
+
+One cannot directly interact with a encrypted block device, you need to open it first.
+
+## Open an encrypted block device
+
+Use the following command to open the encrypted block device — enter your decryption passphrase when prompted.
 
 ```sh
+# Replace <NAME> with whatever name you want
 sudo cryptsetup open /dev/sdXN <NAME>
 ```
 
->[!info]
->When you open the encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>`. When you read from or write to this block device, the kernel decrypts/encrypts the data on the fly transparently.
->
->This virtual, unlocked block device is what you actually format with a filesystem and mount to your system. 
+When you open a encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>` — this unlocked block device is what you actually format with a [[disk-filesystem|filesystem]], mount to your [[virtual-file-system|vfs]] and interact with (think of it as the interface for the encrypted block device). 
 
-Now, format the virtual, unlocked block device — use whatever filesystem you want.
+## Format and mount the unlocked block device
+
+Format the unlocked block device with whatever [[disk-filesystem|filesystem]] you want.
 	
 ```sh
 sudo mkfs.<FILESYSTEM> /dev/mapper/<NAME>
 ```
 
-Finally, create a mount point and mount the virtual, unlocked block device just like a regular drive.
+Mount the unlocked block device the same way you mount any other drive.
 
 ```sh
-sudo mkdir -p /mnt/secure
-sudo mount /dev/mapper/<NAME> /mnt/secure
+sudo mount /dev/mapper/<NAME> /mnt/<DIR>
 ```
 
-Done!
+That's it!
 
 
-## Safely close the virtual, unlocked block device
+## Close the unlocked block device
 
 When you are done using the drive, you need to unmount the filesystem and lock the LUKS container to secure the data again.
 
 ```sh
-# Unmount the filesystem
-sudo umount /mnt/secure
-
-# Lock the LUKS container
+sudo umount /mnt/<DIR>
 sudo cryptsetup close <NAME>
 ```
 
-Now the virtual, unlocked device under `/dev/mapper/<NAME>` vanishes, and the data is completely locked away until the next time you run `cryptsetup open`.
+Now the unlocked device vanishes, and the data is completely locked away until the next time you run `cryptsetup open`.

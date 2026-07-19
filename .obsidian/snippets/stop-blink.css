@@ -1,6 +1,30 @@
-/* Stop the cursor from blinking in Obsidian editor */
-.cm-cursor,
-.cm-dropCursor {
+/* 1. Kill CodeMirror 6's keyframe animations entirely */
+.cm-cursorLayer {
   animation: none !important;
+  -webkit-animation: none !important;
+  visibility: visible !important;
+}
+
+/* 2. Target the cursor shapes directly across editing views */
+.cm-cursor,
+.cm-dropCursor,
+.cm-fat-cursor {
+  animation: none !important;
+  -webkit-animation: none !important;
+  visibility: visible !important;
   opacity: 1 !important;
+}
+
+/* 3. Universal caret controller fallback */
+* {
+  caret-animation: manual !important;
+}
+
+/* Add a bottom line to all H2 headers that adapts to your theme */
+.cm-heading-2,
+.markdown-rendered h2 {
+  border-bottom: 2px solid var(--hr-color) !important;
+  padding-bottom: 8px !important;
+  display: block !important;
+  width: 100% !important;
 }

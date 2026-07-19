@@ -1,9 +1,9 @@
 # Virtual File System (VFS)
 
+#TODO 
+
 > [!info]
 > Also known as Linux Directory Tree, System Root or Filesystem Hierarchy Standard (FHS).
-
-#TODO 
 
 The [[disk-filesystem]] (on-disk structure) is the block-level layout (like ext4, Btrfs, or Zfs) formatted onto a disk/partition. It contains the actual data blocks and inodes.
 
