@@ -27,11 +27,11 @@ Use the following command to open the encrypted block device — enter your decr
 sudo cryptsetup open /dev/sdXN <NAME>
 ```
 
-When you open a encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>` — this unlocked block device is what you actually format with a [[filesystem|filesystem]], mount to your [[linux-vfs|vfs]] and interact with (think of it as the interface for the encrypted block device). 
+When you open a encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>` — this unlocked block device is what you actually format with a [[filesystems|filesystem]], mount to your [[linux-vfs|vfs]] and interact with (think of it as the interface for the encrypted block device). 
 
 ### Format and mount the unlocked block device
 
-Format the unlocked block device with whatever [[filesystem|filesystem]] you want.
+Format the unlocked block device with whatever [[filesystems|filesystem]] you want.
 	
 ```sh
 sudo mkfs.<FILESYSTEM> /dev/mapper/<NAME>

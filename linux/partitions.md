@@ -9,7 +9,7 @@ When a disk is partitioned, a small amount of space at the very beginning (or en
 >[!tip]
 > Always create a partition table. Disks with no partition table might be flagged as "uninitialized" or empty by operating systems, causing confusion that may lead a user to format the disk, destroying its data.
 >
-> Creating a [[filesystem|filesystem]] directly on a raw unpartitioned disk is possible, but only recommended for disks aimed to be used in storage pools (ZFS / Btrfs / LVM) or in cloud or VM environments.
+> Creating a [[filesystems|filesystem]] directly on a raw unpartitioned disk is possible, but only recommended for disks aimed to be used in storage pools (ZFS / Btrfs / LVM) or in cloud or VM environments.
 
 The two common standards are:
 
@@ -73,7 +73,7 @@ How a disk is partitioned depends on many factors.
   For UEFI always use a GPT partition table with a ESP partition. For BIOS, only use GPT (with a BIOS boot partition) when the boot drive is greater than 2TB or when more than 4 primary partitions are required, in any other case prefer MBR (no boot partition required).
 <br>
 - **Filesystem**
-  Modern [[filesystem|filesystems]] like `btrfs` can replace the need for partitions, dynamic-sizing subvolumes can coexist inside a single partition. With older filesystems like `ext4` you do need to partition your disk (guessing the appropieate size for each partition ahead of time).
+  Modern [[filesystems|filesystems]] like `btrfs` can replace the need for partitions, dynamic-sizing subvolumes can coexist inside a single partition. With older filesystems like `ext4` you do need to partition your disk (guessing the appropieate size for each partition ahead of time).
 <br>
 - **Swap partitition**
   Not recommended anymore, swap files perform just as good and can be removed or resized when needed.

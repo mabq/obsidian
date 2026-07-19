@@ -1,6 +1,6 @@
 # Linux Virtual Filesystem (VFS)
 
-The **Virtual File System (VFS)** is an abstract software layer in the Linux kernel that sits between user-space applications and concrete storage [[filesystem|filesystems]] like Btrfs, Ext4, or XFS.
+The **Virtual File System (VFS)** is an abstract software layer in the Linux kernel that sits between user-space applications and concrete storage [[filesystems|filesystems]] like Btrfs, Ext4, or XFS.
 
 Its primary job is to provide a uniform, standardized interface (using standard system calls like `open()`, `read()`, and `write()`) so that applications don't need to know or care what filesystem or underlying hardware they are interacting with.
 

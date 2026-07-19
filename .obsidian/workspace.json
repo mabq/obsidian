@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "glossary/linux-kernel.md",
+                "file": "linux/filesystems.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "linux-kernel"
+              "title": "filesystems"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "glossary/linux-kernel.md",
+                "file": "linux/filesystems.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for linux-kernel"
+              "title": "Backlinks for filesystems"
             }
           },
           {
@@ -184,19 +184,19 @@
   },
   "active": "69e2065761b0300e",
   "lastOpenFiles": [
-    "glossary/luks.md",
-    "glossary/linux-vfs.md",
-    "glossary/linux-kernel.md",
-    "glossary/filesystem.md",
-    "glossary/firmware.md",
-    "glossary/partitions.md",
+    "linux/partitions.md",
+    "linux/filesystems.md",
+    "linux/firmware.md",
+    "linux/linux-kernel.md",
+    "linux/linux-vfs.md",
+    "linux/luks.md",
     "guides/disk-setup.md",
     "glossary/block-device-node.md",
     "guides",
     "nixos-installation.md",
     "ext4.md",
     "README.md",
-    "glossary",
+    "linux",
     "disk-setup",
     "disk-setup"
   ]
