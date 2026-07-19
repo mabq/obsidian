@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "3c66d8d9e90cff6f",
+        "id": "cb8bb49a4043389e",
         "type": "tabs",
         "children": [
           {
-            "id": "9c4c0f82871ad3e7",
+            "id": "69e2065761b0300e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "glossary/vfs.md",
+                "file": "glossary/linux-kernel.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "vfs"
+              "title": "linux-kernel"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "glossary/vfs.md",
+                "file": "glossary/linux-kernel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for vfs"
+              "title": "Backlinks for linux-kernel"
             }
           },
           {
@@ -182,13 +182,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9c4c0f82871ad3e7",
+  "active": "69e2065761b0300e",
   "lastOpenFiles": [
-    "glossary/partitions.md",
     "glossary/luks.md",
-    "glossary/firmware.md",
+    "glossary/linux-vfs.md",
+    "glossary/linux-kernel.md",
     "glossary/filesystem.md",
-    "glossary/vfs.md",
+    "glossary/firmware.md",
+    "glossary/partitions.md",
     "guides/disk-setup.md",
     "glossary/block-device-node.md",
     "guides",

@@ -1,4 +1,4 @@
-# Virtual Filesystem (VFS)
+# Linux Virtual Filesystem (VFS)
 
 The **Virtual File System (VFS)** is an abstract software layer in the Linux kernel that sits between user-space applications and concrete storage [[filesystem|filesystems]] like Btrfs, Ext4, or XFS.
 
@@ -41,6 +41,8 @@ The Linux VFS treats everything through an object-oriented paradigm implemented 
 <br>
 * **File** (`file`)
   Represents an *open* file associated with a specific process. It tracks process-specific states like the current file offset (where the read/write cursor is) and the access mode (read-only, write-only).
+
+See [[linux-kernel#^150a1b|Silicon to filesystems]].
 
 ### Everything is a File
 
