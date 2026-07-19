@@ -1,15 +1,15 @@
-# Disk partitions
+# Partitions
 
 Virtual divisions on a single physical disk appearing as multiple independent drives. 
 
-## Partition table
+### Partition table
 
 When a disk is partitioned, a small amount of space at the very beginning (or end) of the drive is reserved for a partition table — a data structure containing information about each partition (location, size, type).
 
 >[!tip]
 > Always create a partition table. Disks with no partition table might be flagged as "uninitialized" or empty by operating systems, causing confusion that may lead a user to format the disk, destroying its data.
 >
-> Creating a [[disk-filesystem|filesystem]] directly on a raw unpartitioned disk is possible, but only recommended for disks aimed to be used in storage pools (ZFS / Btrfs / LVM) or in cloud or VM environments.
+> Creating a [[filesystem|filesystem]] directly on a raw unpartitioned disk is possible, but only recommended for disks aimed to be used in storage pools (ZFS / Btrfs / LVM) or in cloud or VM environments.
 
 The two common standards are:
 
@@ -21,7 +21,7 @@ The two common standards are:
 	The legacy fallback and default choice for BIOS systems.
 	Supports 4 primary partitions and disks up to 2 Terabytes.
 
-## Partition types
+### Partition types
 
 Simple hex-codes marking the purpose of each partition in the partition table — used by programs to quickly find a partition without reading its content.
 
@@ -65,7 +65,7 @@ The most common partition types in Linux are:
 > Use `lsblk -o NAME,FSTYPE,PARTTYPE` to show the filesystem and partition type code side to side. 
 
 
-## Disk layout
+### Disk layout
 
 How a disk is partitioned depends on many factors.
 
@@ -73,23 +73,20 @@ How a disk is partitioned depends on many factors.
   For UEFI always use a GPT partition table with a ESP partition. For BIOS, only use GPT (with a BIOS boot partition) when the boot drive is greater than 2TB or when more than 4 primary partitions are required, in any other case prefer MBR (no boot partition required).
 <br>
 - **Filesystem**
-  Modern [[disk-filesystem|filesystems]] like `btrfs` can replace the need for partitions, dynamic-sizing subvolumes can coexist inside a single partition. With older filesystems like `ext4` you do need to partition your disk (guessing the appropieate size for each partition ahead of time).
+  Modern [[filesystem|filesystems]] like `btrfs` can replace the need for partitions, dynamic-sizing subvolumes can coexist inside a single partition. With older filesystems like `ext4` you do need to partition your disk (guessing the appropieate size for each partition ahead of time).
 <br>
 - **Swap partitition**
   Not recommended anymore, swap files perform just as good and can be removed or resized when needed.
 
+---
 
-## Common actions
+### How to create disk partitions?
+Read `man parted`.
+  
+### How to encrypt a partition?
+See [[luks| LUKS encryption]].
 
-### Create disk partitions
-
-Read `man parted`. 
-
-### Encrypt a partition
-
-See [[luks-encryption| LUKS encryption]].
-
-### Delete a filesystem
+### How to delete a filesystem?
 
 Deleting the filesystem makes the block device appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
 
@@ -98,7 +95,7 @@ Deleting the filesystem makes the block device appear empty — data is deleted 
 wipefs -a /dev/sdX[0-9]*
 ```
 
-### Delete a partition table
+### How to delete a partition table?
 
 Deleting the partition table makes the physical disk appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
 
@@ -107,9 +104,9 @@ Deleting the partition table makes the physical disk appear empty — data is de
 wipefs -a /dev/sdX
 ```
 
-### Delete data securily
+### How to actually delete data?
 
-Use these commands as a nuclear option to destroy data — ⚠️ **be very careful!**, data can't be recovered after this.
+ ⚠️ Executing theses commands will make data **unrecoverable**.
 
 | Scenario                   | Recommended Tool/Command                            | Notes                               |
 | -------------------------- | --------------------------------------------------- | ----------------------------------- |

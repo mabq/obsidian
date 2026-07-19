@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "28ecff1b392490aa",
+        "id": "3c66d8d9e90cff6f",
         "type": "tabs",
         "children": [
           {
-            "id": "176b5d11a4ce7c1a",
+            "id": "9c4c0f82871ad3e7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "glossary/luks-encryption.md",
+                "file": "glossary/vfs.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "luks-encryption"
+              "title": "vfs"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "glossary/luks-encryption.md",
+                "file": "glossary/vfs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for luks-encryption"
+              "title": "Backlinks for vfs"
             }
           },
           {
@@ -182,14 +182,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "176b5d11a4ce7c1a",
+  "active": "9c4c0f82871ad3e7",
   "lastOpenFiles": [
-    "glossary/disk-partitions.md",
+    "glossary/partitions.md",
+    "glossary/luks.md",
     "glossary/firmware.md",
-    "glossary/luks-encryption.md",
-    "glossary/disk-filesystem.md",
+    "glossary/filesystem.md",
+    "glossary/vfs.md",
     "guides/disk-setup.md",
-    "glossary/virtual-file-system.md",
     "glossary/block-device-node.md",
     "guides",
     "nixos-installation.md",

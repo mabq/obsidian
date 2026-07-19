@@ -5,7 +5,7 @@ LUKS (Linux Unified Key Setup) defines a standard on-disk format that integrates
 > [!info]
 > In examples below, replace `/dev/sdXN` with a proper device node.
 
-## Encrypt a block device
+### Encrypt a block device
 
 All you need to do to encrypt a block device is to format it with LUKS — this steps creates the LUKS header and sets up your passphrase. It uses LUKS2 by default on modern systems.
 
@@ -18,7 +18,7 @@ When prompted, type "YES" in all caps to confirm and then enter your decryption 
 
 One cannot directly interact with a encrypted block device, you need to open it first.
 
-## Open an encrypted block device
+### Open an encrypted block device
 
 Use the following command to open the encrypted block device — enter your decryption passphrase when prompted.
 
@@ -27,11 +27,11 @@ Use the following command to open the encrypted block device — enter your decr
 sudo cryptsetup open /dev/sdXN <NAME>
 ```
 
-When you open a encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>` — this unlocked block device is what you actually format with a [[disk-filesystem|filesystem]], mount to your [[virtual-file-system|vfs]] and interact with (think of it as the interface for the encrypted block device). 
+When you open a encrypted block device, the Linux kernel's device-mapper driver (`dm-crypt`) creates a virtual, unlocked block device at `/dev/mapper/<NAME>` — this unlocked block device is what you actually format with a [[filesystem|filesystem]], mount to your [[vfs|vfs]] and interact with (think of it as the interface for the encrypted block device). 
 
-## Format and mount the unlocked block device
+### Format and mount the unlocked block device
 
-Format the unlocked block device with whatever [[disk-filesystem|filesystem]] you want.
+Format the unlocked block device with whatever [[filesystem|filesystem]] you want.
 	
 ```sh
 sudo mkfs.<FILESYSTEM> /dev/mapper/<NAME>
@@ -43,10 +43,7 @@ Mount the unlocked block device the same way you mount any other drive.
 sudo mount /dev/mapper/<NAME> /mnt/<DIR>
 ```
 
-That's it!
-
-
-## Close the unlocked block device
+### Close the unlocked block device
 
 When you are done using the drive, you need to unmount the filesystem and lock the LUKS container to secure the data again.
 
