@@ -1,12 +1,15 @@
 # Filesystems
 
-A filesystem decides how data is organized, named, stored, and retrieved on a storage device. Without one, a disk is just a flat sequence of bytes — the filesystem is what turns that into files, directories, permissions, and metadata like timestamps.
+A filesystem decides how data is organized, named, stored, and retrieved on a storage device. 
+
+Without one, a disk is just a flat sequence of bytes — the filesystem is what turns that into files, directories, permissions, and metadata like timestamps.
+
 
 ### Types of Filesystems
 
 There isn't one universal filesystem because different storage media, workloads, and environments have different needs. Broadly, filesystems fall into a few categories:
 
-#### Disk-based (local) filesystems
+#### Disk-based (local) filesystems:
 
 These store data persistently on physical or virtual block devices (HDDs, SSDs, USB drives).
 
@@ -17,9 +20,9 @@ These store data persistently on physical or virtual block devices (HDDs, SSDs, 
 - **FAT32 / exFAT** — Simple, ubiquitous formats with minimal metadata overhead, used for USB drives and SD cards specifically because nearly every operating system (Windows, macOS, Linux, cameras, game consoles) can read them.
 - **APFS** — Apple's filesystem, optimized for SSDs and encryption.
 
-These exist because there are real trade-offs between reliability, performance, feature richness (snapshots, compression, encryption), and compatibility. A journaling filesystem like ext4 costs a bit of write performance in exchange for crash safety; FAT32 sacrifices modern features for near-universal compatibility.
+These exist because there are real trade-offs between reliability, performance, feature richness and compatibility.
 
-#### Network filesystems
+#### Network filesystems:
 
 These let a machine access files that physically live on another machine over a network, as if they were local.
 
@@ -28,7 +31,7 @@ These let a machine access files that physically live on another machine over a 
 
 They exist to let multiple machines share a common pool of files without copying them around manually.
 
-#### Pseudo (virtual) filesystems
+#### Pseudo (virtual) filesystems:
 
 These don't store data on a disk at all — they present kernel or process information *as if* it were a filesystem, because the file/directory interface is a convenient, universal way to expose data.
 
@@ -39,7 +42,7 @@ These don't store data on a disk at all — they present kernel or process infor
 
 They exist because representing dynamic, in-memory kernel state as "files you can `cat`" is simpler than inventing a separate API for every subsystem.
 
-#### Special-purpose filesystems
+#### Special-purpose filesystems:
 
 - **squashfs** — A read-only, compressed filesystem, often used for live CDs, installer images, or embedded systems where the contents never change.
 - **overlayfs** — A "union" filesystem that layers one filesystem on top of another (a lower read-only layer and an upper writable layer). This is the technology that makes Docker container images work efficiently.
@@ -102,9 +105,9 @@ Here's how that works:
 
 When you navigate into `/home`, the VFS transparently switches which underlying filesystem driver is handling your requests — you'd never know from the `ls` output alone that you just crossed from one filesystem into a completely different one.
 
-#### How to Recognize Which Filesystem Is Mounted Where
+#### Useful commands
 
-A few standard tools let you inspect this:
+A few standard tools let you inspect filesystems in your system:
 
 - **findmnt** — lists all mounted filesystems, showing the mount point, source, filesystem type and mount options.
 - **`df -Tf`** — shows disk usage per mounted filesystem, including the `-T` flag for filesystem type.
@@ -114,20 +117,6 @@ A few standard tools let you inspect this:
 - **`blkid`** — reports the filesystem type and UUID for each block device, useful for identifying a disk/partition before it's even mounted.
 - **`stat -f /some/path`** — reports filesystem-level information (type, block size, free space) for whatever filesystem a given path lives on.
 - **`cat /proc/filesystems`** — lists every filesystem type the currently running kernel has support for (compiled in or loaded as a module), whether or not it's currently in use.
-
-#### Putting It Together
-
-In practice, a running Linux system might simultaneously have:
-
-- a disk-filesystem mounted at `/`
-- a separate disk-filesystem partition mounted at `/home`
-- tmpfs mounted at `/tmp` and `/run`
-- procfs mounted at `/proc`
-- sysfs mounted at `/sys`
-- overlayfs mounted somewhere under `/var/lib/docker` if containers are running
-- an NFS share mounted at `/mnt/nas`
-
-All of it appears as one seamless tree to the user, all of it is accessed through the same system calls, and all of it is made possible by the VFS quietly routing each request to the correct underlying filesystem driver.
 
 
 ### FAQs
@@ -185,7 +174,7 @@ So, when you look at `/dev/sdXN`, you are looking at a device node that points t
 The reason these two aren't synonyms is that a device node can represent things other than block devices.
 
 
-#### Mount exFAT filesystems
+#### exFAT filesystems and user permissions
 
  exFAT has no on-disk concept of Unix ownership or permission bits, so the kernel driver fabricates a single, uniform set of permissions for the entire filesystem at mount time, based on options you pass in. By default many distros mount it with a restrictive `umask` and `uid`/`gid` pinned to whoever mounted it, which is why it looks locked to just you.
  
