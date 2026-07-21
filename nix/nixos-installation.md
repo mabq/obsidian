@@ -45,7 +45,7 @@ Internal structure used by the partition to write/retrieve data.
 
 The filesystem is created in the actual partition — the tags you may see in the partition table are only hints to the operating system (ignored by Linux).
 
-- [[ext4]]
+- ext4
   A traditional "modify-in-place" filesystem that requires very little computational power. It writes data to disk and forgets about it.
 
 - Btrfs

@@ -4,9 +4,11 @@
 
 ^697838
 
-While traditional Linux distributions rely on the [[filesystems#^59afc8|File System Hierarchy Standard (FHS)]] to keep the system organized, Nix views the standard as a fundamental blocker to reproducible, reliable package management.
+While traditional Linux distributions rely on the [File System Hierarchy Standard](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard) (FHS) to keep the system organized, Nix views the standard as a fundamental blocker to reproducible, reliable package management.
 
-**The FHS relies on implicit side-effects** — when you compile a program on a standard Linux distro, the compiler automatically looks in `/usr/lib` or `/lib` to find dynamic libraries (like `libc`).
+The FHS assumes a global, shared environment where all applications share the same folders for binaries, libraries and configurations, making reproduceability impossible.
+
+When you compile a program on a standard Linux distro, the compiler automatically looks in `/usr/lib` or `/lib` to find dynamic libraries (like `libc`).
 
 This creates a massive problem for reproducibility:
 
