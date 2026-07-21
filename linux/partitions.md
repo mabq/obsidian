@@ -21,6 +21,8 @@ The two common standards are:
 	The legacy fallback and default choice for BIOS systems.
 	Supports 4 primary partitions and disks up to 2 Terabytes.
 
+See [[firmware]] for more information about UEFI and BIOS.
+
 ### Partition types
 
 Simple hex-codes marking the purpose of each partition in the partition table — used by programs to quickly find a partition without reading its content.
@@ -78,15 +80,18 @@ How a disk is partitioned depends on many factors.
 - **Swap partitition**
   Not recommended anymore, swap files perform just as good and can be removed or resized when needed.
 
----
 
-### How to create disk partitions?
+### FAQs
+
+#### How to create disk partitions?
+
 Read `man parted`.
   
-### How to encrypt a partition?
+#### How to encrypt a partition?
+
 See [[luks| LUKS encryption]].
 
-### How to delete a filesystem?
+#### How to delete a filesystem?
 
 Deleting the filesystem makes the block device appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
 
@@ -95,7 +100,7 @@ Deleting the filesystem makes the block device appear empty — data is deleted 
 wipefs -a /dev/sdX[0-9]*
 ```
 
-### How to delete a partition table?
+#### How to delete a partition table?
 
 Deleting the partition table makes the physical disk appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
 
@@ -104,7 +109,7 @@ Deleting the partition table makes the physical disk appear empty — data is de
 wipefs -a /dev/sdX
 ```
 
-### How to actually delete data?
+#### How to actually delete data?
 
  ⚠️ Executing theses commands will make data **unrecoverable**.
 

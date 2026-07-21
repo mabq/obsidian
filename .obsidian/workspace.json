@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "filesystems"
             }
+          },
+          {
+            "id": "64b96253482c8621",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "linux/filesystems.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "filesystems"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -182,18 +197,24 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "69e2065761b0300e",
+  "active": "64b96253482c8621",
   "lastOpenFiles": [
     "linux/partitions.md",
     "linux/filesystems.md",
     "linux/firmware.md",
+    "linux/freedesktop.md",
     "linux/linux-kernel.md",
-    "linux/linux-vfs.md",
     "linux/luks.md",
+    "linux/linux-vfs.md",
+    "Untitled.md",
+    "nix/nix.md",
+    "nix/nixos-installation.md",
+    "nix/nix-git-model.md",
+    "filesystem^59afc8.md",
+    "nix",
     "guides/disk-setup.md",
     "glossary/block-device-node.md",
     "guides",
-    "nixos-installation.md",
     "ext4.md",
     "README.md",
     "linux",

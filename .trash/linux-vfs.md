@@ -6,7 +6,7 @@ Its primary job is to provide a uniform, standardized interface (using standard 
 
 ### Why It Matters: The Power of Abstraction
 
-Without the VFS, if you wanted to read a file from a USB drive formatted in FAT32, an SSD using Btrfs, and a network share using NFS, your text editor would need three completely different code tracks to talk to those distinct systems.
+Without the VFS, if you wanted to read a file from a USB drive formatted in FAT32, an SSD using Btrfs, or a network share using NFS, your text editor would need three completely different code tracks to talk to those distinct systems.
 
 With VFS, the kernel provides a single unified interface:
 
