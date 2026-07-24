@@ -104,6 +104,17 @@ It is truly amazing how the VFS transparently switches the underlying filesystem
 
 ### FAQs
 
+#### How to delete a filesystem?
+
+^d91a08
+
+Deleting the filesystem makes the block device appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
+
+```sh
+# ⚠️ Double check device node before pressing Enter!
+wipefs -a /dev/sdX[0-9]*
+```
+
 
 #### Why do we need to mount the boot filesystem
 
@@ -123,3 +134,16 @@ To open it up to other users (like plex), mount it like this:
 ```sh
 sudo mount -t exfat -o uid=$(id -u),gid=$(id -g),umask=0022 /dev/sdXY /mnt/<MOUNT_POINT>
 ```
+
+
+#### Partition UUID vs. Filesystem UUID
+
+^d53876
+
+|Feature|Filesystem UUID|Partition UUID|
+|-|-|-|
+|Stored in|The filesystem header (partition).|The GPT/MBR partition table (disk).|
+|Referenced by|`/dev/disk/by-uuid/`| `/dev/disk/by-partuuid/`|
+|Created when|The partition is formatted (e.g. `mkfs.ext4`, `mkfs.btrfs`).|The partition table is generated (e.g. `fdisk`, `parted`).|
+|Changes when|The filesystem is wiped or the partition re-formatted.|The partition table is wiped or a new one is created.|
+|NixOS Default?|Yes — ensures that an actual filesystem is mounted, not just a raw slab of disk space.|No — used occasionally for kernel boot parameters.|

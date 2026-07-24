@@ -91,16 +91,9 @@ Read `man parted`.
 
 See [[luks| LUKS encryption]].
 
-#### How to delete a filesystem?
-
-Deleting the filesystem makes the block device appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
-
-```sh
-# ⚠️ Double check device node before pressing Enter!
-wipefs -a /dev/sdX[0-9]*
-```
-
 #### How to delete a partition table?
+
+^e9bf43
 
 Deleting the partition table makes the physical disk appear empty — data is deleted for practical terms (it can still be recovered with specialized tools).
 

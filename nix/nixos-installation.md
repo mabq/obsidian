@@ -1,69 +1,156 @@
-A nixos installation can be divided into the following stages:
+# NixOS installation
 
-1. Partition the disk
-2. Generate hardware configuration
-3. Update the repository
-4. Install NixOS
+### No disko
 
-## Partition the disk
+[[filesystems#^d53876|Filesystem UUIDs]] change every time you install (or re-install) NixOS, regardless if you use the graphical installer or not. Additionally, you cannot guarantee the same partition layout or filesystem types will be used when doing a full re-install.
 
+In consequence, you need to:
 
-## firmware
+1. Do a basic NixOS install — this will create the user account and home dir:
+	- [Graphical Installation](https://nixos.org/manual/nixos/stable/#sec-installation-graphical) — good enough when no special partitioning is required.
+	- [[#^70a55c|Manual Installation]] — when a special partition layout is required. Edit `configuration.nix` so that you can connect to the internet and the user account is created.
+2. Reboot and re-login.
+3. Run `nix shell "nixpkgs#git" "nixpkgs#gh" "nixpkgs#neovim" "nixpkgs#yazi"`.
+4. Login to GitHub using `gh`.
+	- Do I really need to login to clone a public repo?
+5. Clone the repository to `~/.local/share/nixos-config`.
+6.  the generated `hardware-configuration.nix` file into the repository's `hwconfig` directory.
+	- Change its name to something that lets you identify the machine it belongs to.
+	- One machine may have many hardware configuration files — one as the result of a manual installation, another one used for automated installations with `nixos-anywhere`, and so on.
+	- Must be separated from the profile, otherwise you wouldn't be able to use the same profile on different machines.
+7. Edit the flake, so that the desired configuration points to the right hardware configuration file.
+8. Run `git add .` to add the new hardware configuration file to git.
+9. Rebuild.
 
-Software stored in the motherboard itself. You make the choice when you buy the hardware.
+---
 
-Two options; UEFI and BIOS (`legacy`).
-``
-If `/sys/firmware/efi` exists, the firmware is UEFI, otherwise it is BIOS.
+### Manual Installation
+
+^70a55c
+
+Download the [NixOS Minimal ISO image](https://nixos.org/download/#nixos-iso) and create a bootable USB drive following the instructions in [Booting from a USB flash drive](https://nixos.org/manual/nixos/stable/index.html#sec-booting-from-usb) section of the NixOS manual. Boot the machine from this USB drive.
+
+> [!info]
+> For more information see [Manual Installation](https://nixos.org/manual/nixos/stable/#sec-installation-manual) (NixOS Manual).
 
 ```sh
-ls /sys/firmware/efi
+# Login as root
+sudo -i
+
+# Connect to a wireless network (or just plug the ethernet cable)
+nmtui
+# Verify the connection
+ping 8.8.8.8
+
+# Optionally, to continue via ssh (`ssh root@<IP>`)
+# Change root's password
+passwd
+# Annotate the IP address
+ip a
+
+# Identify the target disk
+lsblk -f
+
+# ⚠️ From here on, replace `/dev/sdX` with the target disk device node. Be careful!
+
+# Wipe all previous filesystems
+wipefs -a /dev/sdX[0-9]* # careful!
+# Wipe previous partition table
+wipefs -a /dev/sdX # careful!
 ```
-## Partitions
 
-Partition table is data at the start (sometimes also at the end) of a disk describing partitions (their locations, sizes, types, etc.).
+Partitioning, formatting and mounting (choose one of the options):
 
-Two options; GPT or MBR.
+- BIOS (ext4 encrypted):
 
-  - UEFI → GPT
-    UEFI looks for an EFI System Partition (`ESP`) to boot. This partition type is supported by the GUID Partition Table (GPT).
+```sh
+# Create GPT partition table
+parted -s /dev/sdX mklabel gpt # careful!
+# Partition 1
+# BIOS boot partition (1MiB size, flagged for bios_grub)
+parted -s /dev/sdX mkpart primary 1MiB 2MiB
+parted -s /dev/sdX set 1 bios_grub on
+# Partition 2
+# Boot partition (1GiB for kernels/initrd)
+parted -s /dev/sdX mkpart primary ext4 2MiB 1026MiB
+# Partition 3
+# Root partition (Rest of disk)
+parted -s /dev/sdX mkpart primary ext4 1026MiB 100%
+# Verify partition layout
+parted /dev/sdX print
 
-  - BIOS → MBR
-    Legacy BIOS boots by looking at the very first sectors of the disk, called the Master Boot Record (MBR). Can also boot from a disk using GPT with the right setup.
+# Encrypt root partition
+cryptsetup luksFormat /dev/sdX3
+# Open encrypted partition (Enter decryption password when prompted)
+cryptsetup open /dev/sdX3 cryptroot
 
-Partitions are virtual divisions on a single physical disk appearing as multiple independent drives. The number and type of partitions depend on:
+# Create filesystems
+# (BIOS partition does not requiere a filesystem)
+mkfs.ext4 -L boot /dev/sdX2
+mkfs.ext4 -L root /dev/mapper/cryptroot
 
-  - Motherboard firmware
-  - Filesystems to be used
-  - Whether encryption is required
-  - Whether a swap partition is required
+# Mount filesystem
+mount /dev/disk/by-label/root /mnt
+mkdir -p /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
+
+```
+
+- For UEFI
+
+```sh
+lsblk -f        # Identify the target disk
+
+parted /dev/sdX -- mklabel gpt
+parted -s /dev/sdX mkpart primary 1MiB 2MiB      # BIOS partition
+parted -s /dev/sdX set 1 bios_grub on
+parted -s /dev/sdX mkpart primary 2MiB 514MiB    # UEFI partitition
+parted -s /dev/sdX set 2 esp on
+parted -s /dev/sdX mkpart primary 514MiB 100%    # root partition
+
+# Encryption
+cryptsetup luksFormat /dev/sdX3
+cryptsetup open /dev/sdX3 crypted    # Enter decryption password when prompted
+
+# Create filesystems
+mkfs.vfat -F32 -n boot /dev/sdX2          # UEFI requires FAT32 (label "boot")
+mkfs.ext4 -L nixos /dev/mapper/crypted    # ext4 for root (label "nixos")
+                                          # BIOS requires no filesystem
+
+# Mount filesystems
+mount /dev/disk/by-label/nixos /mnt                     # Mount root
+mkdir -p /mnt/boot                                      # Mount boot
+mount -o umask=077 /dev/disk/by-label/boot /mnt/boot
+```
+
+Generate and edit configuration files:
+
+```sh
+# Generate config files
+nixos-generate-config --root /mnt
+
+# Edit configuration.nix
+nano /mnt/etc/nixos/configuration.nix
+# - BIOS? Uncomment the line `boot.loader.grub.device`
+# - Uncomment the user block
+#   - Change the username
+#   - Add the `networkmanager` group
+# - Enable ssh
+# - Disable firewall
+```
+
+Install NixOS:
+
+```sh
+nixos-install
+```
 
 
-## Filesystem
-
-Internal structure used by the partition to write/retrieve data.
-
-The filesystem is created in the actual partition — the tags you may see in the partition table are only hints to the operating system (ignored by Linux).
-
-- ext4
-  A traditional "modify-in-place" filesystem that requires very little computational power. It writes data to disk and forgets about it.
-
-- Btrfs
-  Every single read and write operation requires Btrfs to calculate and verify cryptographic checksums, manage metadata pointers for Copy-on-Write (CoW), and handle background compression (if enabled). On a high-end desktop, you won't notice this. On a laptop running on battery, or older hardware, Btrfs will consume noticeably more CPU cycles and RAM than ext4.
-
-- ZFS
-  Good for dedicated storage server (NAS), hypervisor, or any multi-drive array requiring RAID-5/6 parity where absolute data integrity and proven enterprise maturity are non-negotiable.
 
 
-## Wipe data
 
-Creating a new partition table and filesystems does not override previous data, which sometimes can cause errors (the new partition table did not override all sectors used by the previous one or one of the new partitions may be using the same sectors of a previous partition).
 
-When reusing a disk always do one of the following:
 
-  - Override all previous data with random data (`dd if=/dev/urandom of=/dev/sdX bs=4M status=progress`) — most secure and reliable but very slow, overkill for personal use devices.
 
-  - Delete each partition filesystem (`wipefs -a /dev/sdXY`) and then the partition table (`wipefs -a /dev/sdX`) itself.
 
-To verify, first inform the OS about the changes (`partprove /dev/sdX`) and then review with `lsblk -l /dev/sdX`.
-
+All you need is network manager to connect to internet and the user account.

@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "950f99e127ebcfb8",
+        "id": "f31d9fda4ffba8c0",
         "type": "tabs",
         "children": [
           {
-            "id": "322c372d71c22265",
+            "id": "5a3a4699bc5fff67",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "linux/filesystems.md",
+                "file": "nix/nixos-installation.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "filesystems"
+              "title": "nixos-installation"
             }
           }
         ]
@@ -182,18 +182,19 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "322c372d71c22265",
+  "active": "5a3a4699bc5fff67",
   "lastOpenFiles": [
     "linux/partitions.md",
+    "nix/nixos-installation.md",
+    "linux/filesystems.md",
+    "nix/nix-explanations.md",
+    "nix/nix-commands.md",
     "linux/luks.md",
     "linux/kernel.md",
     "linux/freedesktop.md",
     "linux/firmware.md",
-    "linux/filesystems.md",
-    "nix/nixos-installation.md",
     "ext4.md",
     "linux/filesystems 1.md",
-    "nix/nix.md",
     "guides/disk-setup.md",
     "linux-vfs.md",
     "filesystem^59afc8.md",
