@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/age.md",
+                "file": "nix/nix-commands.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "age"
+              "title": "nix-commands"
             }
           },
           {
@@ -198,10 +198,10 @@
   },
   "active": "5a3a4699bc5fff67",
   "lastOpenFiles": [
-    "apps/bitwarden.md",
-    "apps/age.md",
-    "linux/partitions.md",
     "nix/nixos-installation.md",
+    "apps/age.md",
+    "apps/bitwarden.md",
+    "linux/partitions.md",
     "linux/filesystems.md",
     "guides/disk-setup.md",
     "apps",
