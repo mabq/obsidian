@@ -23,6 +23,11 @@ In consequence, you need to:
 9. Rebuild.
 
 ---
+Basic installation
+- NixOS is installed.
+- The user account and directory (`/home/<USER>`) exist.
+- Can connect to the internet
+---
 
 ### Manual Installation
 
@@ -110,12 +115,12 @@ parted -s /dev/sdX mkpart primary 514MiB 100%    # root partition
 
 # Encryption
 cryptsetup luksFormat /dev/sdX3
-cryptsetup open /dev/sdX3 crypted    # Enter decryption password when prompted
+cryptsetup open /dev/sdX3 cryptroot    # Enter decryption password when prompted
 
 # Create filesystems
-mkfs.vfat -F32 -n boot /dev/sdX2          # UEFI requires FAT32 (label "boot")
-mkfs.ext4 -L nixos /dev/mapper/crypted    # ext4 for root (label "nixos")
-                                          # BIOS requires no filesystem
+mkfs.vfat -F32 -n boot /dev/sdX2            # UEFI requires FAT32 (label "boot")
+mkfs.ext4 -L nixos /dev/mapper/cryptroot    # ext4 for root (label "nixos")
+                                            # BIOS requires no filesystem
 
 # Mount filesystems
 mount /dev/disk/by-label/nixos /mnt                     # Mount root
@@ -142,10 +147,49 @@ nano /mnt/etc/nixos/configuration.nix
 Install NixOS:
 
 ```sh
+# Install NixOS (enter password for root when prompted)
 nixos-install
+
+# Set the user password
+nixos-enter --root /mnt -c 'passwd <USER>'
+
+# Reboot
+reboot
 ```
 
+Clone flake repo, add hardware configuration and rebuild:
 
+```sh
+# Install these tools in a temp shell
+nix --extra-experimental-features "nix-command flakes" shell "nixpkgs#git" "nixpkgs#neovim" "nixpkgs#yazi"
+
+# Clone the flake repository
+mkdir -p ~/.local/share
+cd ~/.local/share
+git clone https://github.com/mabq/nixos-config.git
+cd nixos-config
+
+# Optionally, checkout the desired branch
+git chechout <BRANCH>
+
+# Move the generated hardware configuration file to the repository
+sudo mv /etc/nixos/hardware-configuration.nix ~/.local/share/nixos-config/machines/hardware-configuration/<MACHINE-REF>-<YYYYMMDD>.nix
+
+# Add new files to git
+git add .
+
+# Make sure the options passed to the nixos-configuration in the flake file
+# are valid, then execute.
+**sudo** nixos-rebuild --verbose switch --flake .#<CONFIG>
+
+# Authenticate to GitHub
+# ✋ Requieres another device logged into GitHub
+gh auth login
+
+# Push changes
+git commit -m "hardware config <SOME REFERENCE>"
+git push
+```
 
 
 

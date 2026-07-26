@@ -14,11 +14,11 @@ When a disk is partitioned, a small amount of space at the very beginning (or en
 The two common standards are:
 
 - **GPT** (GUID Partition Table)
-	The modern standard and default choice for UEFI systems.
+	The modern standard and default choice for both UEFI and BIOS systems.
 	Supports 128 primary partitions and disks up to 9.4 Zettabytes.
 <br>	
 - **MBR** (Master Boot Record)
-	The legacy fallback and default choice for BIOS systems.
+	Legacy fallback for some BIOS systems.
 	Supports 4 primary partitions and disks up to 2 Terabytes.
 
 See [[firmware]] for more information about UEFI and BIOS.
@@ -72,7 +72,7 @@ The most common partition types in Linux are:
 How a disk is partitioned depends on many factors.
 
 - **Motherboard firmware**
-  For UEFI always use a GPT partition table with a ESP partition. For BIOS, only use GPT (with a BIOS boot partition) when the boot drive is greater than 2TB or when more than 4 primary partitions are required, in any other case prefer MBR (no boot partition required).
+  MBR might be the only option for very old BIOS systems — most will be able to boot from a propertly configured GPT partitioned disk.
 <br>
 - **Filesystem**
   Modern [[filesystems|filesystems]] like `btrfs` can replace the need for partitions, dynamic-sizing subvolumes can coexist inside a single partition. With older filesystems like `ext4` you do need to partition your disk (guessing the appropieate size for each partition ahead of time).
@@ -85,7 +85,7 @@ How a disk is partitioned depends on many factors.
 
 #### How to create disk partitions?
 
-Read `man parted`.
+Read `man parted` and NixOS [[nixos-installation|installation notes]].
   
 #### How to encrypt a partition?
 

@@ -13,6 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "apps/age.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "age"
+            }
+          },
+          {
+            "id": "ef65590c2ce08599",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "nix/nixos-installation.md",
                 "mode": "preview",
                 "source": true
@@ -184,9 +198,13 @@
   },
   "active": "5a3a4699bc5fff67",
   "lastOpenFiles": [
+    "apps/bitwarden.md",
+    "apps/age.md",
     "linux/partitions.md",
     "nix/nixos-installation.md",
     "linux/filesystems.md",
+    "guides/disk-setup.md",
+    "apps",
     "nix/nix-explanations.md",
     "nix/nix-commands.md",
     "linux/luks.md",
@@ -195,11 +213,9 @@
     "linux/firmware.md",
     "ext4.md",
     "linux/filesystems 1.md",
-    "guides/disk-setup.md",
     "linux-vfs.md",
     "filesystem^59afc8.md",
     "linux/linux-vfs.md",
-    "Untitled.md",
     "nix/nix-git-model.md",
     "nix",
     "glossary/block-device-node.md",
