@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/nix-commands.md",
+                "file": "apps/age.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "nix-commands"
+              "title": "age"
             }
           },
           {
@@ -27,15 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/nixos-installation.md",
-                "mode": "preview",
+                "file": "apps/sops.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "nixos-installation"
+              "title": "sops"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -196,18 +197,19 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "5a3a4699bc5fff67",
+  "active": "ef65590c2ce08599",
   "lastOpenFiles": [
-    "nix/nixos-installation.md",
     "apps/age.md",
+    "apps/sops.md",
     "apps/bitwarden.md",
+    "nix/nixos-installation.md",
+    "linux/luks.md",
+    "nix/nix-commands.md",
     "linux/partitions.md",
     "linux/filesystems.md",
     "guides/disk-setup.md",
     "apps",
     "nix/nix-explanations.md",
-    "nix/nix-commands.md",
-    "linux/luks.md",
     "linux/kernel.md",
     "linux/freedesktop.md",
     "linux/firmware.md",

@@ -2,6 +2,8 @@
 
 ## 2FA
 
+^990072
+
 A 30-character random password makes brute-force guessing impossible, but it doesn't protect you from theft:
 
 - Database Breaches (The "Out of Your Control" Factor)
