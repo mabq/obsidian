@@ -28,7 +28,7 @@
               "type": "markdown",
               "state": {
                 "file": "nix/nixos-installation.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",

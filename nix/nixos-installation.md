@@ -3,15 +3,31 @@
 
 ### nixos-anywhere
 
-The target machine needs to be reachable via SSH directly as root or a user with password-less `sudo` — review the [requirements](https://nix-community.github.io/nixos-anywhere/requirements.html).
-
 Follow the instructions below — for more information see the [Quickstart](https://nix-community.github.io/nixos-anywhere/quickstart.html) guide.
 
-Make sure the desired flake config includes:
-  - The correct [disko configuration](https://github.com/nix-community/disko?tab=readme-ov-file#how-to-use-disko) for the targeted host file.
-- 
+> [!info]
+> The target machine needs to be reachable via SSH, directly as root or a user with password-less `sudo` — review the [requirements](https://nix-community.github.io/nixos-anywhere/requirements.html).
 
-First, make sure the flake repository contains all the desired configurations for the host, user and profile.
+Review the following:
+
+1. `flake.nix` must include the desired NixOS configuration. 
+2. The referenced host file exist and imports a valid [disko](https://github.com/nix-community/disko?tab=readme-ov-file#how-to-use-disko) configuration.
+   Update the name of the referenced facter report to match the new report (created below) — e.g. `xps-20260729`.
+
+Install NixOS remotely:
+
+> [!info]
+> nixos-anywhere doesn’t need to be installed, run it directly from the Github repository
+
+```sh
+nix run github:nix-community/nixos-anywhere -- \
+  --flake <path/to/flake>#<nixos-configuration> \
+  --generate-hardware-config nixos-generate-config ./hosts/hardware-configuration/<host>-<yyyymmdd>.nix
+  --generate-hardware-config nixos-facter ./hosts/facter/<host>-<yyyymmdd>.json
+  --target-host root@<ip address>
+```
+
+---
 
 Then, on the **local machine**, prepare the extra files directory:
 
