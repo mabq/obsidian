@@ -85,7 +85,7 @@ How a disk is partitioned depends on many factors.
 
 #### How to create disk partitions?
 
-Read `man parted` and NixOS [[nixos-installation|installation notes]].
+Read `man parted` and NixOS [[nixos-installation-basic|installation notes]].
   
 #### How to encrypt a partition?
 

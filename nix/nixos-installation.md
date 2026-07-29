@@ -1,8 +1,48 @@
-# NixOS installation
+# NixOS Installation
 
-### No disko
 
-[[filesystems#^d53876|Filesystem UUIDs]] change every time you install (or re-install) NixOS, regardless if you use the graphical installer or not. Additionally, you cannot guarantee the same partition layout or filesystem types will be used when doing a full re-install.
+### nixos-anywhere
+
+The target machine needs to be reachable via SSH directly as root or a user with password-less `sudo` — review the [requirements](https://nix-community.github.io/nixos-anywhere/requirements.html).
+
+Follow the instructions below — for more information see the [Quickstart](https://nix-community.github.io/nixos-anywhere/quickstart.html) guide.
+
+Make sure the desired flake config includes:
+  - The correct [disko configuration](https://github.com/nix-community/disko?tab=readme-ov-file#how-to-use-disko) for the targeted host file.
+- 
+
+First, make sure the flake repository contains all the desired configurations for the host, user and profile.
+
+Then, on the **local machine**, prepare the extra files directory:
+
+```sh
+# nixos-anywhere will copy the contents of the `/tmp/extra-files` directory onto
+# the target root filesystem (`/`) before system evaluation.
+mkdir -p /tmp/extra-files/home/<USER>/.config/sops/age
+
+# Store the user's decrypted private key file in the path where we need it on the
+# remote machine — without the private key there sops-nix won't be able to decrypt
+# secrets.
+age --decrypt \
+  -o /tmp/extra-files/home/<USER>/.config/sops/age/keys.txt \
+  ~/.local/share/nixos-config/users/<USER>/keys.txt.age
+
+# Ensure strict permissions
+chmod 600 /tmp/extra-files/home/<USER>/.config/sops/age/keys.txt
+chmod 700 /tmp/extra-files/home/<USER>/.config/sops/age
+```
+
+Run `nixos-anywhere` with `--extra-files`:
+
+```sh
+nixos-anywhere \
+  --extra-files /tmp/extra-files \
+  --flake .#<NIXOS-CONFIGURATION> \
+  root@<TARGET_IP>
+```
+
+
+### Manual Installation
 
 In consequence, you need to:
 
@@ -19,177 +59,34 @@ In consequence, you need to:
 	- One machine may have many hardware configuration files — one as the result of a manual installation, another one used for automated installations with `nixos-anywhere`, and so on.
 	- Must be separated from the profile, otherwise you wouldn't be able to use the same profile on different machines.
 7. Edit the flake, so that the desired configuration points to the right hardware configuration file.
-8. Run `git add .` to add the new hardware configuration file to git.
-9. Rebuild.
+8. Decrypt user's age private key
+
+	```sh
+	# Make sure you target the "mounted" filesystem, not the live ISO.
+	mkdir /mnt/home/<USER>/.config/sops/age
+	# Careful about where you put the decrypted private key ⚠️
+	age --decrypt -o /mnt/home/<USER>/.config/sops/age/keys.txt /mnt/home/<USER>/.local/share/nixos-config/users/<USER>/keys.txt.age
+	# Should only be readable by the owner!
+	chmod 600 /mnt/home/<USER>/.config/sops/age/keys.txt
+	```
+
+Publishing the encrypted key alongside the flake is no worse than publishing any other ciphertext. There's no rate-limiting on offline brute force since anyone can copy the file, so don't get lazy on entropy — treat it like a disk-encryption passphrase, not a login password.
 
 ---
+
+[[filesystems#^d53876|Filesystem UUIDs]] change every time you install (or re-install) NixOS, regardless if you use the graphical installer or not. Additionally, you cannot guarantee the same partition layout or filesystem types will be used when doing a full re-install.
+
+---
+
+9. Run `git add .` to add the new hardware configuration file to git.
+10. Rebuild.
+
+---
+
 Basic installation
 - NixOS is installed.
 - The user account and directory (`/home/<USER>`) exist.
 - Can connect to the internet
----
-
-### Manual Installation
-
-^70a55c
-
-Download the [NixOS Minimal ISO image](https://nixos.org/download/#nixos-iso) and create a bootable USB drive following the instructions in [Booting from a USB flash drive](https://nixos.org/manual/nixos/stable/index.html#sec-booting-from-usb) section of the NixOS manual. Boot the machine from this USB drive.
-
-> [!info]
-> For more information see [Manual Installation](https://nixos.org/manual/nixos/stable/#sec-installation-manual) (NixOS Manual).
-
-```sh
-# Login as root
-sudo -i
-
-# Connect to a wireless network (or just plug the ethernet cable)
-nmtui
-# Verify the connection
-ping 8.8.8.8
-
-# Optionally, to continue via ssh (`ssh root@<IP>`)
-# Change root's password
-passwd
-# Annotate the IP address
-ip a
-
-# Identify the target disk
-lsblk -f
-
-# ⚠️ From here on, replace `/dev/sdX` with the target disk device node. Be careful!
-
-# Wipe all previous filesystems
-wipefs -a /dev/sdX[0-9]* # careful!
-# Wipe previous partition table
-wipefs -a /dev/sdX # careful!
-```
-
-Partitioning, formatting and mounting (choose one of the options):
-
-- BIOS (ext4 encrypted):
-
-```sh
-# Create GPT partition table
-parted -s /dev/sdX mklabel gpt # careful!
-# Partition 1
-# BIOS boot partition (1MiB size, flagged for bios_grub)
-parted -s /dev/sdX mkpart primary 1MiB 2MiB
-parted -s /dev/sdX set 1 bios_grub on
-# Partition 2
-# Boot partition (1GiB for kernels/initrd)
-parted -s /dev/sdX mkpart primary ext4 2MiB 1026MiB
-# Partition 3
-# Root partition (Rest of disk)
-parted -s /dev/sdX mkpart primary ext4 1026MiB 100%
-# Verify partition layout
-parted /dev/sdX print
-
-# Encrypt root partition
-cryptsetup luksFormat /dev/sdX3
-# Open encrypted partition (Enter decryption password when prompted)
-cryptsetup open /dev/sdX3 cryptroot
-
-# Create filesystems
-# (BIOS partition does not requiere a filesystem)
-mkfs.ext4 -L boot /dev/sdX2
-mkfs.ext4 -L root /dev/mapper/cryptroot
-
-# Mount filesystem
-mount /dev/disk/by-label/root /mnt
-mkdir -p /mnt/boot
-mount /dev/disk/by-label/boot /mnt/boot
-
-```
-
-- For UEFI
-
-```sh
-lsblk -f        # Identify the target disk
-
-parted /dev/sdX -- mklabel gpt
-parted -s /dev/sdX mkpart primary 1MiB 2MiB      # BIOS partition
-parted -s /dev/sdX set 1 bios_grub on
-parted -s /dev/sdX mkpart primary 2MiB 514MiB    # UEFI partitition
-parted -s /dev/sdX set 2 esp on
-parted -s /dev/sdX mkpart primary 514MiB 100%    # root partition
-
-# Encryption
-cryptsetup luksFormat /dev/sdX3
-cryptsetup open /dev/sdX3 cryptroot    # Enter decryption password when prompted
-
-# Create filesystems
-mkfs.vfat -F32 -n boot /dev/sdX2            # UEFI requires FAT32 (label "boot")
-mkfs.ext4 -L nixos /dev/mapper/cryptroot    # ext4 for root (label "nixos")
-                                            # BIOS requires no filesystem
-
-# Mount filesystems
-mount /dev/disk/by-label/nixos /mnt                     # Mount root
-mkdir -p /mnt/boot                                      # Mount boot
-mount -o umask=077 /dev/disk/by-label/boot /mnt/boot
-```
-
-Generate and edit configuration files:
-
-```sh
-# Generate config files
-nixos-generate-config --root /mnt
-
-# Edit configuration.nix
-nano /mnt/etc/nixos/configuration.nix
-# - BIOS? Uncomment the line `boot.loader.grub.device`
-# - Uncomment the user block
-#   - Change the username
-#   - Add the `networkmanager` group
-# - Enable ssh
-# - Disable firewall
-```
-
-Install NixOS:
-
-```sh
-# Install NixOS (enter password for root when prompted)
-nixos-install
-
-# Set the user password
-nixos-enter --root /mnt -c 'passwd <USER>'
-
-# Reboot
-reboot
-```
-
-Clone flake repo, add hardware configuration and rebuild:
-
-```sh
-# Install these tools in a temp shell
-nix --extra-experimental-features "nix-command flakes" shell "nixpkgs#git" "nixpkgs#neovim" "nixpkgs#yazi"
-
-# Clone the flake repository
-mkdir -p ~/.local/share
-cd ~/.local/share
-git clone https://github.com/mabq/nixos-config.git
-cd nixos-config
-
-# Optionally, checkout the desired branch
-git chechout <BRANCH>
-
-# Move the generated hardware configuration file to the repository
-sudo mv /etc/nixos/hardware-configuration.nix ~/.local/share/nixos-config/machines/hardware-configuration/<MACHINE-REF>-<YYYYMMDD>.nix
-
-# Add new files to git
-git add .
-
-# Make sure the options passed to the nixos-configuration in the flake file
-# are valid, then execute.
-**sudo** nixos-rebuild --verbose switch --flake .#<CONFIG>
-
-# Authenticate to GitHub
-# ✋ Requieres another device logged into GitHub
-gh auth login
-
-# Push changes
-git commit -m "hardware config <SOME REFERENCE>"
-git push
-```
 
 
 

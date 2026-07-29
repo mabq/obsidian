@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/age.md",
+                "file": "linux/partitions.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "age"
+              "title": "partitions"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/sops.md",
-                "mode": "source",
+                "file": "nix/nixos-installation.md",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "sops"
+              "title": "nixos-installation"
             }
           }
         ],
@@ -200,12 +200,13 @@
   "active": "ef65590c2ce08599",
   "lastOpenFiles": [
     "apps/age.md",
+    "nix/nixos-installation.md",
+    "nix/nixos-installation-basic.md",
+    "linux/partitions.md",
     "apps/sops.md",
     "apps/bitwarden.md",
-    "nix/nixos-installation.md",
     "linux/luks.md",
     "nix/nix-commands.md",
-    "linux/partitions.md",
     "linux/filesystems.md",
     "guides/disk-setup.md",
     "apps",

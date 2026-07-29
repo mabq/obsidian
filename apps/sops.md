@@ -6,34 +6,29 @@ Encrypted files can be securely stored in public repositories.
 
 When you execute `sops <file>`, it:
 
-  - Maps the file to a public key based on the rules described in the `.sops.yaml` file.
-  - Verifies the public key has a matching private key (`~/.config/sops/age/keys.txt`).
+  - Read `.sops.yaml` to map a public key to the file.
+  - Verifies the matching private key exists in `~/.config/sops/age/keys.txt`.
   - Decrypts the file temporarily using the private key.
   - Opens the cleartext version in your normal text editor (`$EDITOR`).
   - Re-encrypts the file automatically when saving, using the public key.
 
+SOPS [recommends](https://getsops.io/docs/usage/identities/age/) using [[age]] over PGP to encrypt files — if you don't have a public/private key pair yet, [[age#^09f97e|create one]].
 
-### Public/private key pair
-
-SOPS [recommends](https://getsops.io/docs/usage/identities/age/) using [[age]] over PGP to encrypt files.
-
-Asymetric encryption requieres a public/private key pair — you can easily [[age#^09f97e|create one]] if you don't have one already.
-
-> [!info]
-> The security model of managing secrets in a public repository relies entirely on the fact that an attacker cannot do anything with the encrypted blobs because they lack the private key — to facilitate things I included all private keys (simetrically encrypted) in the public repository.
->
-> After cloning the repo you need to manually execute:
-> ```sh
-> cd ~/.config/sops/age
-> age --decrypt -o keys.txt keys.txt.age
-> ```
-> ⚠️ MAKE SURE THE DECRYPTED FILE NEVER LEAKS THE REPOSITORY!
-
-TODO: This won't be possible, first clone the repo, then 
 
 ### sops-nix
 
-[sops-nix](https://github.com/mic92/sops-nix) decrypts secrets from soap files during activation time — you can use the decrypted content (stored securely in memory) on .
+[sops-nix](https://github.com/mic92/sops-nix) provides a way to integrate sops with Nix/NixOS — during activation time `sops-nix`:
 
+  - Reads your NixOS options (e.g., `sops.defaultSopsFile` and `sops.age.keyFile`).
+  - Opens the encrypted file (e.g., `secrets/<USER>.yaml`).
+  - Extracts the public key IDs directly from the file's internal metadata, ignoring `.sops.yaml` completely. 
+  - Uses your host's local private key to perform the decryption and places the secret into `/run/secrets/<secret-attribute>`.  
 
+### nixos-anywhere
+
+`nixos-anywhere` includes built-in options specifically designed to inject secrets (including your age private key) onto the target machine's disk after formatting (via disko), but before running `nixos-install`.
+
+```sh
+nixos-anywhere --extra-files /tmp/extra-files --flake .#myhost root@<TARGET_IP>
+```
 
