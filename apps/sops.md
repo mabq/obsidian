@@ -14,6 +14,9 @@ When you execute `sops <file>`, it:
 
 SOPS [recommends](https://getsops.io/docs/usage/identities/age/) using [[age]] over PGP to encrypt files — if you don't have a public/private key pair yet, [[age#^09f97e|create one]].
 
+> [!info]
+> `sops` expects to find the private key in `~/.config/sops/age/keys.txt`
+
 
 ### sops-nix
 

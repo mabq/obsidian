@@ -3,15 +3,16 @@
 
 ### nixos-anywhere
 
-Follow the instructions below — for more information see the [Quickstart](https://nix-community.github.io/nixos-anywhere/quickstart.html) guide.
+Follow the instructions below — for more information see [Quickstart](https://nix-community.github.io/nixos-anywhere/quickstart.html).
 
 > [!info]
-> The target machine needs to be reachable via SSH, directly as root or a user with password-less `sudo` — review the [requirements](https://nix-community.github.io/nixos-anywhere/requirements.html).
+> The target machine needs to be reachable via SSH as root or a user with password-less `sudo` — review the [requirements](https://nix-community.github.io/nixos-anywhere/requirements.html).
 
-Review the following:
+Before using `nixos-anywhere`, review:
 
-1. `flake.nix` must include the desired NixOS configuration. 
-2. The referenced host file exist and imports a valid [disko](https://github.com/nix-community/disko?tab=readme-ov-file#how-to-use-disko) configuration.
+1. Values of the desired nixos-configuration in `flake.nix`.
+2. Values of the default module — use the profile file to override any.
+3. The referenced host file exist and imports a valid [disko](https://github.com/nix-community/disko?tab=readme-ov-file#how-to-use-disko) configuration.
    Update the name of the referenced facter report to match the new report (created below) — e.g. `xps-20260729`.
 
 Install NixOS remotely:
