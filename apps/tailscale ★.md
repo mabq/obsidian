@@ -47,10 +47,10 @@ Same applies for things like `--accept-routes` or `--accept-dns`.
 
 [Tailscale SSH](https://tailscale.com/docs/reference/syntax/policy-file#tailscale-ssh) completely by-passes the normal SSH authentication system.
 
-> [!warning]
-> When connecting to a Tailnet you don't own, use `tailscale up --shields-up` to block all incoming connection attempts from the Tailnet while still allowing you to make outgoing connections to their nodes.
+When Tailscale is installed on Linux, macOS, or Windows, its background daemon (`tailscaled`) is registered as a system service executing with `root` / `SYSTEM` privileges.
 
-When Tailscale is installed on Linux, macOS, or Windows, its background daemon (`tailscaled`) is registered as a system service executing with `root` / `SYSTEM` privileges — this means it can execute a process and arbitrarily set its user ID (UID) and group ID (GID) to match any existing user account on the system without needing that user's password. <br>
+> [!warning]
+> This means it can execute a process and arbitrarily set its user ID (UID) and group ID (GID) to match any existing user account on the system without needing that user's password.
    
 ```
 [Incoming WireGuard Traffic]
@@ -71,6 +71,9 @@ When Tailscale is installed on Linux, macOS, or Windows, its background daemon (
 ```
 
 Because `tailscaled` trusts the signed WireGuard identity payload and the control plane's ACL policy, it doesn't need local OS passwords.
+
+> [!tip]
+> When connecting to a Tailnet you don't own, use `tailscale up --shields-up` to block all incoming connection attempts from the Tailnet while still allowing you to make outgoing connections to their nodes.
 
 
 ### Documentation
