@@ -1,91 +1,80 @@
 # Tailscale
 
-Connect devices and services securely across different networks.
+Connect devices securely across different networks.
 
-Encrypted point-to-point connections (via [WireGuard](https://www.wireguard.com/)) create a peer-to-peer mesh network known as a Tailnet. Can also be used as a traditional VPN by routing all traffic through an [exit node](https://tailscale.com/docs/features/exit-nodes).
+[WireGuard](https://www.wireguard.com/) encrypted point-to-point connections create a peer-to-peer mesh network known as a Tailnet — Tailscale automatically handles key generation and distribution, so users benefit by not needing to perform the manual steps.
 
-Connections between tailnet devices work seamlessly across firewalls and [Network Address Translation (NAT)](https://tailscale.com/blog/how-nat-traversal-works). Not static IP addresses either.
+Tailscale can also be used as a traditional VPN by routing all traffic through an [exit node](https://tailscale.com/docs/features/exit-nodes).
 
-> [!warning]
-> Make sure the Tailscale identity provider (e.g. GitHub) has [[bitwarden#^990072|2FA]] enabled.
+Connections between tailnet devices work seamlessly without static IP addresses across firewalls and [Network Address Translation (NAT)](https://tailscale.com/blog/how-nat-traversal-works).
 
 Packages not intended for other Tailnet nodes are not affected.
 
-### Users and Devices
+### Identity
 
-There are no Tailscale accounts — Tailscale works on top of the [SSO Identity Providers](https://tailscale.com/docs/integrations/identity).
+Each Tailscale connection is based on identity.
 
-Different Identity Providers produce different Tailnets — e.g. Alice may own a Tailnet linked to GitHub and another one linked to Apple. These are complete different Tailnets.
+Tailscale delegates user authentication to [Identity Providers](https://tailscale.com/docs/integrations/identity#supported-native-identity-providers), it does however establish node identity. A node identity binds a user's identity to a specific device — that's why every machine you see in the Machine's page is tied to a user.
 
-Users can be invited to partiticipate in other Tailnets — e.g. John can be invited to participate in Alice's Tailnet linked to GitHub.
+> [!warning]
+> Prevent malicious takeover of your Tailnet by enabling [[bitwarden#^990072|2FA]] with your Identity Provider.
 
-Each device is linked to a single Tailnet at a time — e.g. John can switch between his own Tailnet and Alice's GitHub Tailnet. The device can not participate on both Tailnets at the same time.
+Tailscale takes into account both the user identity and the node identity when determining what network access to grant.
 
-### The Dual-Key Security Model
+Different Identity Providers produce different Tailnets. E.g. Alice may own a Tailnet linked to GitHub and another one linked to Apple. These are different Tailnets.
 
-You are never at the absolute mercy of a foreign Tailnet admin — the ACLs define the maximum boundaries of what could happen, the local client flags and host firewall define what actually happens. For example:
+Users can be invited to partiticipate in other Tailnets. E.g. John can be invited to participate in one of Alice's Tailnets.
+
+> [!info]
+> A user can login into many different Tailnets and switch between them, but a node can connect to only a single tailnet at any given time. See [How devices, nodes and user accounts relate](https://tailscale.com/docs/concepts/tailscale-identity#how-devices-nodes-and-user-accounts-relate) and [Switching between Tailnets](https://tailscale.com/docs/concepts/tailscale-identity#switching-between-tailnets).
+
+For more information read [Tailscale Identity](https://tailscale.com/docs/concepts/tailscale-identity#introduction).
+
+### Tailnet Policy vs. Local Flags
+
+The Tailnet Policy defines the maximum boundaries of what could happen. Local client flags define what actually happens. For example:
 
 ```
- Tailnet Admin (ACLs)             Local Device (Flags / OS)
-┌────────────────────────────┐   ┌───────────────────────────┐
-│ "Allow SSH to workstation" │ + │ tailscale set --ssh=true  │ = SSH Access Granted
-└────────────────────────────┘   └───────────────────────────┘
-
-┌────────────────────────────┐   ┌───────────────────────────┐
-│ "Allow SSH to workstation" │ + │ tailscale set --ssh=false │ = Blocked by Local Device
-└────────────────────────────┘   └───────────────────────────┘
-
-┌────────────────────────────┐   ┌───────────────────────────┐
-│ "Block SSH to workstation" │ + │ tailscale set --ssh=true  │ = BLOCKED by ACL
-└────────────────────────────┘   └───────────────────────────┘
+ Tailnet Policy                   Local Device (Flags / OS)
+ --------------------------       -------------------------
+ "Allow SSH to workstation"   +   tailscale set --ssh=true    = SSH Access Granted
+ "Allow SSH to workstation"   +   tailscale set --ssh=false   = Blocked by Local Flag
+ "Block SSH to workstation"   +   tailscale set --ssh=true    = Blocked by Tailnet Policy
 ```
 
-Same applies for things like `--accept-routes` or `--accept-dns`.
+Tailnet Policy [Grants](https://tailscale.com/docs/features/access-control/grants) operate on a principle of explicitly defining which users or devices (sources) have access to which resources (destinations) along with what capabilities they have after connecting — `app` capabilities are optional and require custom app logic, `ip` capabilities work at the network level.
+
+Local flags can be passed to [up](https://tailscale.com/docs/reference/tailscale-cli#up) or [set](https://tailscale.com/docs/reference/tailscale-cli#set) CLI commands to enable/disable client features — flags apply on per Tailnet basis, use `tailscale debug prefs` to check current settings.
+
+> [!warning]
+> When connecting to a Tailnet you don't own, use `tailscale up --shields-up` to block all incoming connection attempts from the Tailnet while still allowing you to make outgoing connections to their nodes.
 
 
 ### Tailscale SSH
 
-[Tailscale SSH](https://tailscale.com/docs/reference/syntax/policy-file#tailscale-ssh) completely by-passes the normal SSH authentication system.
+Tailscale SSH does not require SSH keys or user passwords — the background daemon `tailscaled` is registered as a system service executing with `root` privileges, it can execute a process and arbitrarily set its user ID (UID) and group ID (GID) to match any existing user account on the system **WITHOUT NEEDING THAT USER'S PASSWORD**.
 
-When Tailscale is installed on Linux, macOS, or Windows, its background daemon (`tailscaled`) is registered as a system service executing with `root` / `SYSTEM` privileges.
+To see why you would prefer Tailscale SSH over normal SSH, read [Protect your SSH servers using Tailscale](https://tailscale.com/docs/reference/ssh-over-tailscale).  Just be careful with the [permissions](https://tailscale.com/docs/reference/syntax/policy-file#tailscale-ssh) set in the [Policy file](https://tailscale.com/docs/features/tailnet-policy-file). 
+
+ 
+Check if Tailscale SSH is enabled with `tailscale debug prefs | grep RunSSH`.
+
+Enable/disable Tailscale SSH with `sudo tailscale set --ssh=true|false`.
 
 > [!warning]
-> This means it can execute a process and arbitrarily set its user ID (UID) and group ID (GID) to match any existing user account on the system without needing that user's password.
-   
-```
-[Incoming WireGuard Traffic]
-       │
-       ▼
-┌─────────────────────────────────────────┐
-│ tailscaled (running as root)            │
-│ 1. Verifies signed identity payload     │
-│ 2. Validates against tailnet ACL policy │
-└──────────────────┬──────────────────────┘
-                   │
-                   │ Calls PAM / setuid() as root
-                   ▼
-┌─────────────────────────────────────────┐
-│ System Shell Process (bash/zsh)         │
-│ UID swapped to target user (e.g., alice)│
-└─────────────────────────────────────────┘
-```
-
-Because `tailscaled` trusts the signed WireGuard identity payload and the control plane's ACL policy, it doesn't need local OS passwords.
-
-> [!tip]
-> When connecting to a Tailnet you don't own, use `tailscale up --shields-up` to block all incoming connection attempts from the Tailnet while still allowing you to make outgoing connections to their nodes.
+> Do not enable Tailscale SSH in Tailnets you don't own!
 
 
-### Documentation
+### Tailscale Docs
 
 - [Tailscale Docs](https://tailscale.com/docs)
+- [Start using Tailscale](Start using Tailscale) — quickstart, terminology, concepts, etc.
 - [How Tailscale Works](https://tailscale.com/blog/how-tailscale-works) — must read article.
 - [WireGuard](https://www.wireguard.com/) — the magic of encrypted tunnels.
 - [Subnet router](https://tailscale.com/docs/features/subnet-routers/how-to/setup) — access devices not running the Tailscale client.
 - [Policies](https://tailscale.com/docs/reference/syntax/policy-file) — avoid unintended access.
 - [Tags](https://tailscale.com/docs/features/tags) — tagging a device turns it into a non-user resource, such as a server, NAS, or app connector.
 - [Zero trust](https://tailscale.com/docs/concepts/zero-trust)
-- [Terminology and concepts](https://tailscale.com/docs/reference/glossary)
 - [Features](https://tailscale.com/docs/features)
 - [Install Tailscale on NixOS](https://tailscale.com/docs/install/nixos)
 
