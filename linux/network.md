@@ -1,6 +1,6 @@
 # Network
 
-Linux abstracts physical network hardware into Network Interfaces.
+Linux abstracts physical network hardware into [network interfaces](https://wiki.archlinux.org/title/Network_configuration#Network_interfaces).
 
 The Linux kernel is in charge. Tools like network managers or the `ip` command simply issue calls to the kernel to set up state.
 
@@ -12,9 +12,20 @@ Learn more:
 
 A [network manager](https://wiki.archlinux.org/title/Network_configuration#Network_managers) lets you manage network connection settings in so called network profiles to facilitate switching networks.
 
-systemd-networkd is primarily declarative, meaning that it reads network configurtion from static files that are not meant to be edited often. It provides the `networkctl` command to query or modify the status of network links. Use `networkctl help` or see `man networkctl` for more information.
+> [!info]
+> Each network interface should be managed by only one DHCP client or network manager, so it is advised to run only one DHCP client or network manager on the system.
 
-Network-manager is primarily imperative, it provides the commands `nmtui` for easy manual configuration via an interactive TUI and `nmcli` for pure command-line automation, scripting and advanced use.
+**1. systemd-networkd**
+
+Primarily declarative, reads network configurtion from static files that are not meant to be edited often.
+
+Use `networkctl help` or see `man networkctl` for network configuration commands.
+
+Use `resolvectl help` or see `man resolvectl` for DNS commands.
+
+**2. network-manager**
+
+Primarily imperative. Provides the commands `nmtui` for easy manual configuration via an interactive TUI and `nmcli` for pure command-line automation, scripting and advanced use.
 
 
 ### Imperative changes
