@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/tailscale ★.md",
+                "file": "linux/network.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "tailscale ★"
+              "title": "network"
             }
           }
         ]
@@ -184,8 +184,8 @@
   },
   "active": "5a3a4699bc5fff67",
   "lastOpenFiles": [
-    "linux/network.md",
     "apps/tailscale ★.md",
+    "linux/network.md",
     "Untitled.md",
     "apps/age.md",
     "apps/bitwarden.md",

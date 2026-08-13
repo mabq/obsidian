@@ -1,37 +1,134 @@
 # Network
 
-Linux abstracts physical network hardware into [network interfaces](https://wiki.archlinux.org/title/Network_configuration#Network_interfaces).
+Think of the network stack as a set of nested layers. Traffic enters physical hardware, gets processed by kernel drivers, passes through routing and filtering logic, and finally reaches your userland applications.
 
-The Linux kernel is in charge. Tools like network managers or the `ip` command simply issue calls to the kernel to set up state.
+```txt
++--------------------------------------------------------------------+
+|  USER SPACE / APPLICATIONS (Browsers, SSH, Nginx, Curl)            |
++--------------------------------------------------------------------+
+|  CONTROL PLANE TOOLS (iproute2, Systemd-networkd, NetworkManager)  |
++--------------------------------------------------------------------+
+|  KERNEL SPACE: Socket Layer (BSD Sockets)                          |
+|  KERNEL SPACE: Transport Layer (TCP, UDP)                          |
+|  KERNEL SPACE: Network & Routing (IPv4, IPv6, Subnets)             |
+|  KERNEL SPACE: Netfilter / Packet Filtering (Firewalls)            |
+|  KERNEL SPACE: Data Link / Network Interfaces (eth0, wlan0)        |
++--------------------------------------------------------------------+
+|  HARDWARE / DRIVER (NIC, Wi-Fi Card, Ethernet Cable)               |
++--------------------------------------------------------------------+
+```
 
-Read the [Network Configuration](https://wiki.archlinux.org/title/Network_configuration) ArchWiki to learn about Linux networking.
+### User-space tools
+ 
+| Layer / Area | What It Handles | Modern Tools | Legacy Tools |
+| --- | --- | --- | --- |
+| Physical & Data Link (Layer 1 & 2) | Physical hardware, MAC addresses, link state (up/down), link speed, Wi-Fi. | `ip link`, `ethtool`, `iw` | `ifconfig`, `iwconfig`, `mii-tool` |
+| Network & IP Routing (Layer 3) | Assigning IPv4/IPv6 addresses, subnetting, default gateways, routing tables. | `ip addr`, `ip route`, `ip neighbor`, `ping`, `traceroute`, `nc` | `ifconfig`, `route`, `arp` |
+| Transport & Sockets (Layer 4) | TCP/UDP ports, open listening sockets, active connections. | `ss -tulnp`, `lsof` | `netstat` |
+| Packet Filtering & Firewalls | Dropping packets, NAT (Port forwarding), packet modification. | `nft` (nftables), `ufw`, `firewalld` | `iptables`, `arptables` |
+| DNS & Name Resolution | Mapping domain names (`google.com`) to IP addresses. | `dig`, `resolvectl` (systemd-resolved) | `/etc/resolv.conf`, `nslookup` |
+| High-Level Network Managers | Automatically switching Wi-Fi, managing VPNs, persisting static configs. | `nmtui`, `nmcli` (NetworkManager), `networkctl` (systemd-networkd) | `/etc/network/interfaces` |
+
+> [!tip]
+> To learn more about these commands check their man pages or help subcommands, e.g. `ip help`, `ip route help` or `man ip`.
+
+Changes made with the `ip` command are not persistent. For persistent configuration use a [network manager](https://wiki.archlinux.org/title/Network_configuration#Network_managers) —  each network interface should be managed by only one DHCP client or network manager, so it is advised to run only one DHCP client or network manager on the system.
+
+### Network Interfaces
+
+To the Linux kernel, a [network interface](https://wiki.archlinux.org/title/Network_configuration#Network_interfaces) is simply a communication endpoint.
+
+Each interface has:
+
+- **State**: `UP`/`DOWN`, and `LOWER_UP` (physical link detected)
+- **MTU**: max transmission unit (default 1500 for Ethernet)
+- **MAC address**: link-layer hardware address
+- **Flags**: `BROADCAST`, `MULTICAST`, `LOOPBACK`, `POINTOPOINT`, etc.
+- **Queueing discipline (qdisc)**: how packets are scheduled for transmission
+
+Modern distros use [predictable network interface names](https://systemd.io/PREDICTABLE_INTERFACE_NAMES/) (via `systemd`/`udev`).
+
+#### Physical interfaces
+
+Represent physical NICs (Network Interface Cards). They deal with raw data moving over physical mediums (Ethernet cables or Wi-Fi radio waves). Their job is to get a packet to the router or local LAN.
+
+- `enp3s0` — Ethernet, PCI bus 3, slot 0.
+- `wlp2s0` — Wireless, PCI bus 2, slot 0.
+- `eno1` — Ethernet, onboard, index 1.
+- `lo` — the loopback interface (`127.0.0.1`), always present, used for local communication.
+
+#### Virtual/software interfaces
+
+Exist purely in kernel memory as software:
+
+- `br0` — bridges, which connect multiple interfaces at layer 2 (used heavily in VMs/containers).
+- `veth` pairs — virtual Ethernet cables, typically one end in a container's network namespace, the other in the host's (the backbone of Docker/Kubernetes networking).
+- `tun`/`tap` — used by VPNs (Tailscale, OpenVPN, WireGuard) to inject packets at layer 3 (tun) or layer 2 (tap).
+- `vlan` interfaces (e.g. `eth0.10`) — 802.1Q VLAN tagging.
+- `bond0` — link aggregation/bonding, combining multiple NICs for redundancy or throughput.
+- `dummy0` — a fake interface, useful for testing or as a stable IP anchor.
+
+Many technologies use virtual interfaces to provide special behaviour. The most common ones are:
+
+| Interface | Software | Purpose |
+| --- | --- | --- |
+| `tailscale0` | Tailscale | Packet Interception & Encapsulation, Clean IP Isolation & Routing, Security & Firewall Separation. |
+| `docker0` | Docker | Bridge network interfaces allow containers on the same host to talk to each other without polluting the physical network. |
+| `tun0` / `wg0` | OpenVPN / WireGuard | Encapsulates layer 3 IP packets for standard VPN connections. |
+| `virbr0` | KVM / QEMU / libvirt | Acts as a virtual ethernet switch for Virtual Machines running on your computer. |
+| `lo` | Linux Kernel | The loopback interface (`127.0.0.1`), allowing your computer to talk to networking services hosted on itself. |
+
+This is how the `tailscale0` interface provides special behavior:
+
+```txt
++-------------------------------------------------------------------+
+|                     Your Application (e.g., SSH, Browser)        |
++-------------------------------------------------------------------+
+                                  |
+            Destination IP: 100.x.y.z (Tailscale IP)
+                                  v
++-------------------------------------------------------------------+
+| LINUX KERNEL ROUTING TABLE                                        |
+| -> "Send 100.x.y.z traffic to tailscale0"                         |
+| The kernel thinks tailscale0 is just another network card.        |
++-------------------------------------------------------------------+
+                                  |
+                                  v
++-------------------------------------------------------------------+
+| VIRTUAL INTERFACE: tailscale0 (TUN Device)                       |
+| 1. Takes raw IP packet                                            |
+| 2. Passes packet to Tailscale daemon                              |
++-------------------------------------------------------------------+
+                                  |
+                                  v
++-------------------------------------------------------------------+
+| TAILSCALE USERSPACE DAEMON                                        |
+| 1. Encrypts packet with WireGuard (ChaCha20-Poly1305)             |
+| 2. Wraps encrypted payload into a standard UDP packet             |
++-------------------------------------------------------------------+
+                                  |
+            Destination IP: 192.168.1.1 (Home Router / Internet)
+                                  v
++-------------------------------------------------------------------+
+| HARDWARE INTERFACE: enp3s0 / wlp2s0                               |
+| Sends UDP packet over physical cable/Wi-Fi to remote node         |
++-------------------------------------------------------------------+
+```
 
 
-### Network Managers
+### Namespaces
 
-A [network manager](https://wiki.archlinux.org/title/Network_configuration#Network_managers) lets you manage network connection settings in so called network profiles to facilitate switching networks.
+Linux network namespaces (`netns`) give each namespace its own isolated set of interfaces, routing tables, and iptables rules. This is the core primitive containers use for network isolation — a container gets its own `veth` interface living in its own namespace, connected back to the host via a bridge.
 
-> [!info]
-> Each network interface should be managed by only one DHCP client or network manager, so it is advised to run only one DHCP client or network manager on the system.
-
-**1. systemd-networkd**
-
-Primarily declarative, reads network configurtion from static files that are not meant to be edited often.
-
-Use `networkctl help` or see `man networkctl` for network configuration commands.
-
-Use `resolvectl help` or see `man resolvectl` for DNS commands.
-
-**2. network-manager**
-
-Primarily imperative. Provides the commands `nmtui` for easy manual configuration via an interactive TUI and `nmcli` for pure command-line automation, scripting and advanced use.
+```bash
+ip netns add mynet
+ip netns exec mynet ip addr show
+```
 
 
-### Imperative changes
+### Firewalls
 
-The `ip` command can be used to manage network interfaces, IP addresses and the routing table. These changes are imperative and will be lost after a reboot, for persistent configuration use a network manager.
-
-To learn more about eh `ip` command, see [iproute2](https://wiki.archlinux.org/title/Network_configuration#iproute2) or read its man page `man ip`.
+`ufw` are `firewalld` are high-level frontends that sit on top of `nftables`/`iptables` to make opening/closing ports easy without writing complex rules manually.
 
 
 ### Concetps
