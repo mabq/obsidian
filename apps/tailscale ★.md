@@ -64,6 +64,15 @@ Enable/disable Tailscale SSH with `sudo tailscale set --ssh=true|false`.
 > Do not enable Tailscale SSH in Tailnets you don't own!
 
 
+### DNS servers
+
+The Tailscale client can register the `tailscale0` interface as a default route for DNS servers.
+
+A global nameserver handles DNS queries for any domain. You can use a public DNS nameserver or run your own that to include additional DNS mappings.
+
+See [DNS in Tailscale](https://tailscale.com/docs/reference/dns-in-tailscale).
+
+
 ### Tailscale Docs
 
 - [Tailscale Docs](https://tailscale.com/docs)
