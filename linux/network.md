@@ -4,8 +4,7 @@ Linux abstracts physical network hardware into [network interfaces](https://wiki
 
 The Linux kernel is in charge. Tools like network managers or the `ip` command simply issue calls to the kernel to set up state.
 
-Learn more:
-- [Network Configuration](https://wiki.archlinux.org/title/Network_configuration) ArchWiki is an amazing resource to learn about Linux networking.
+Read the [Network Configuration](https://wiki.archlinux.org/title/Network_configuration) ArchWiki to learn about Linux networking.
 
 
 ### Network Managers
