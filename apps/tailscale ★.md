@@ -66,11 +66,11 @@ Enable/disable Tailscale SSH with `sudo tailscale set --ssh=true|false`.
 
 ### DNS servers
 
-The Tailscale client can register the `tailscale0` interface as a default route for DNS servers.
+You can configure [Global DNS servers](https://tailscale.com/docs/reference/dns-in-tailscale#global-nameservers) in the Tailscale admin console.
 
-A global nameserver handles DNS queries for any domain. You can use a public DNS nameserver or run your own that to include additional DNS mappings.
+To use those DNS servers you need to enable the [Override DNS servers](https://tailscale.com/docAs/reference/dns-in-tailscale#override-dns-servers) option in the Tailscale Admin Console and instruct the Tailscale client to use them by enabling the [`--accept-dns` flag](https://tailscale.com/docs/reference/tailscale-cli/up).
 
-See [DNS in Tailscale](https://tailscale.com/docs/reference/dns-in-tailscale).
+See [DNS in Tailscale](https://tailscale.com/docs/reference/dns-in-tailscale) for more information.
 
 
 ### Tailscale Docs

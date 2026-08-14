@@ -29,10 +29,19 @@ Think of the network stack as a set of nested layers. Traffic enters physical ha
 | DNS & Name Resolution | Mapping domain names (`google.com`) to IP addresses. | `dig`, `resolvectl` (systemd-resolved) | `/etc/resolv.conf`, `nslookup` |
 | High-Level Network Managers | Automatically switching Wi-Fi, managing VPNs, persisting static configs. | `nmtui`, `nmcli` (NetworkManager), `networkctl` (systemd-networkd) | `/etc/network/interfaces` |
 
+Changes made with the `ip` command are not persistent. For persistent configuration use a network manager.
+
 > [!tip]
 > To learn more about these commands check their man pages or help subcommands, e.g. `ip help`, `ip route help` or `man ip`.
 
-Changes made with the `ip` command are not persistent. For persistent configuration use a [network manager](https://wiki.archlinux.org/title/Network_configuration#Network_managers) —  each network interface should be managed by only one DHCP client or network manager, so it is advised to run only one DHCP client or network manager on the system.
+A [network manager](https://wiki.archlinux.org/title/Network_configuration#Network_managers) is simply user-space helper tool that automates the process of requesting IP addresses, handling Wi-Fi handshakes, and updating system configuration files for you. The Linux kernel handles network interfaces natively.
+
+Use a Network Manager (e.g. [NetworkManager](https://wiki.archlinux.org/title/NetworkManager)) if you are on a laptop or desktop and frequently move between different Wi-Fi networks, connect to VPNs, or want a system tray applet to click and pick networks.
+
+Skip a Network Manager if you are configuring a headless server, a container, or a router with a fixed static IP or a single Ethernet connection that rarely changes. A lightweight configuration (like [systemd-networkd](https://wiki.archlinux.org/title/Systemd-networkd) or plain static IP config) is much cleaner and faster here.
+
+> [!info]
+> Each network interface should be managed by only one DHCP client or network manager, so it is advised to run only one DHCP client or network manager on the system.
 
 ### Network Interfaces
 
