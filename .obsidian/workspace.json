@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "linux/dbus.md",
+                "file": "linux/systemd.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "dbus"
+              "title": "systemd"
             }
           }
         ]
@@ -186,8 +186,9 @@
   },
   "active": "5a3a4699bc5fff67",
   "lastOpenFiles": [
-    "apps/age.md",
     "linux/dbus.md",
+    "linux/systemd.md",
+    "apps/age.md",
     "apps/tailscale ★.md",
     "linux/network.md",
     "Untitled.md",
@@ -214,7 +215,6 @@
     "nix",
     "glossary/block-device-node.md",
     "guides",
-    "README.md",
     "linux",
     "disk-setup",
     "disk-setup"
