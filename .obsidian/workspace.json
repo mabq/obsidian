@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/home-manager.md",
+                "file": "linux/systemd.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "home-manager"
+              "title": "systemd"
             }
           }
         ]
@@ -186,10 +186,12 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
-    "nixos-config/pages/post-installation.md",
-    "nix/home-manager.md",
-    "nixos-config/pages/nixos-installation.md",
+    "linux/environment-variables.md",
     "linux/systemd.md",
+    "apps/age.md",
+    "nix/home-manager.md",
+    "nixos-config/pages/post-installation.md",
+    "nixos-config/pages/nixos-installation.md",
     "nix/nixos-installation-basic.md",
     "linux/partitions.md",
     "linux/omarchy.md",
@@ -205,10 +207,8 @@
     "nixos-config",
     "apps/tailscale ★.md",
     "apps/sops.md",
-    "linux/environment-variables.md",
     "linux/desktop-portal.md",
     "linux/dbus.md",
-    "apps/age.md",
     "apps/bitwarden.md",
     "guides/disk-setup.md",
     "apps",

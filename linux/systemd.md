@@ -52,7 +52,7 @@ Its main features are:
   Diagnose and profile boot performance, unit dependency trees, etc. (`systemd-analyze`).
 
 
-### systemd services
+## systemd services
 
 Virtually any executable program or script can be run as a systemd service by creating a `.service` unit file.
 
@@ -61,7 +61,7 @@ Whether it is a compiled C binary, a Python script, a Bash command, or a web ser
 To run a program as a systemd service, it must fulfill two basic rules:
 
 1. **Absolute executable path**
-   You must provide the absolute path to the binary or interpreter (e.g., `/usr/bin/python3` or `/opt/myapp/bin/server`), as systemd does not search your user's `$PATH`.
+   You must provide the absolute path to the binary or interpreter (e.g., `/usr/bin/python3` or `/nix/store/.../bin/python3`), as systemd does not search your user's `$PATH`.
 <br>
 2. **Execution permissions**
    The file must be executable (`chmod +x /path/to/script`).
@@ -89,6 +89,25 @@ WantedBy=multi-user.target
 
 ```
 
+In systemd, `wantedBy = [ "multi-user.target" ]` is a directive that tells systemd to automatically start your service when the system reaches the `multi-user.target` state.
+
+When you enable a service with this setting (either by running `systemctl enable` or via a NixOS module), systemd creates a symbolic link to your service file inside the `/etc/systemd/system/multi-user.target.wants/` directory . When `multi-user.target` is started during boot, systemd reads this directory and starts all services linked from it.
+
+<br>
+
+**Other Common Values for `wantedBy`**
+
+The value you use should correspond to the target you want your service to be a dependency of. Here are some of the most common alternatives:
+
+| **wantedBy Value** | **Use Case / When to Use** |
+| :--- | :--- |
+| `multi-user.target` | **Default for system services** that should start at boot in a non-graphical environment . |
+| `graphical.target` | For services that require or are strongly associated with a graphical desktop environment (e.g., a display manager) . |
+| `default.target` | **Used for user services** (`systemd.user.services`) to make them start when a user logs in . |
+| `sockets.target` | **Used for socket-activated services.** The service itself is not started at boot, but its associated socket unit is, which will then start the service on-demand . |
+| `sysinit.target` | For services that need to be started **very early in the boot process**, such as system initialization or rescue/single-user mode services . |
+| `shutdown.target` | Although not typically used with `WantedBy`, it's worth noting that all targets (like `multi-user.target`) automatically gain a `Conflicts=` and `Before=` dependency on `shutdown.target` to ensure they are stopped during system power-off . |
+
 <br>
 
 **Edge Cases & Important Caveats**
@@ -111,7 +130,7 @@ While *any* binary can run, different types of applications require specific uni
 
 **Basic workflow to enable any service**
 
-1. Create the file: `sudo nano /etc/systemd/system/myapp.service`
+1. Create the file: `sudo nvim /etc/systemd/system/<service-name>.service`
 2. Reload systemd configuration: `sudo systemctl daemon-reload`
 3. Start the service: `sudo systemctl start myapp`
 4. Check status & logs: `sudo systemctl status myapp` or `journalctl -u myapp`
@@ -119,7 +138,7 @@ While *any* binary can run, different types of applications require specific uni
 
 <br>
 
-**Terminal launch vs. systemd service**
+**Terminal launch vs. systemd service** ^92b7a6
 
 When you launch a program from a terminal, it runs attached to your temporary desktop session. When you launch it as a systemd service, it runs as an independent system process managed directly by PID 1.
 
@@ -147,3 +166,5 @@ When you launch a program from a terminal, it runs attached to your temporary de
 
 * **Terminal:** Has access to your user permissions and home directory, but lacks built-in isolation from other programs running under your account.
 * **systemd Service:** Leverages Linux `cgroups` (control groups) and namespaces. You can easily restrict a service to prevent access to `/home`, mark `/etc` read-only, or limit its maximum memory consumption.
+
+[^1]: 
