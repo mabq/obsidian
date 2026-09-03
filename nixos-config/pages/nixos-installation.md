@@ -3,31 +3,38 @@
 
 ### nixos-anywhere
 
-Follow the instructions below — for more information see [Quickstart](https://nix-community.github.io/nixos-anywhere/quickstart.html).
+**Target machine**
 
-> [!info]
-> The target machine needs to be reachable via SSH as root or a user with password-less `sudo` — review the [requirements](https://nix-community.github.io/nixos-anywhere/requirements.html).
+1. Boot from ISO image.
+2. Use `nixos-version` to check the version of the installer.
+3. Use `passwd` to change nixos password.
 
-Before using `nixos-anywhere`, review:
+**Source machine**
 
-1. Values of the desired nixos-configuration in `flake.nix`.
-2. Values of the default module — use the profile file to override any.
-3. The referenced host file exist and imports a valid [disko](https://github.com/nix-community/disko?tab=readme-ov-file#how-to-use-disko) configuration.
-   Update the name of the referenced facter report to match the new report (created below) — e.g. `xps-20260729`.
+1. Clone the [nixos-config](https://github.com/mabq/nixos-config) repository and `cd` into it.
+   `nixos-anywhere` can run a flake directly from a repository URL but we need the flake locally to save the generated `facter.json` report.
+<br> 
+2. Review the targeted nixos configuration in `flake.nix`.
+<br>
+3. Review the selected host file.
+	You must create a new one if it does not exist.
+	Make the `stateVersion` matches the one of the nixos installer.
 
-Install NixOS remotely:
-
-> [!info]
-> nixos-anywhere doesn’t need to be installed, run it directly from the Github repository
+Run the following command on the source machine:
 
 ```sh
+# ⚠️ Double check the target host before executing this command!
 nix run github:nix-community/nixos-anywhere -- \
-  --flake <path/to/flake>#<nixos-configuration> \
-  --generate-hardware-config nixos-generate-config ./hosts/hardware-configuration/<host>-<yyyymmdd>.nix
-  --generate-hardware-config nixos-facter ./hosts/facter/<host>-<yyyymmdd>.json
-  --target-host root@<ip address>
+  --generate-hardware-config nixos-facter ./modules/hosts/facter/<HOST>.json \
+  --flake .#<NIXOS_CONFIGURATION> \
+  --target-host <USER>@<IP>
 ```
 
+For more information see [nixos-anywhere](https://nix-community.github.io/nixos-anywhere).
+
+Todo:
+- secrets
+- puttin the repo in place on the target machine
 ---
 
 Then, on the **local machine**, prepare the extra files directory:

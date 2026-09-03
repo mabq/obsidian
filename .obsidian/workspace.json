@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "f31d9fda4ffba8c0",
+        "id": "e4d8bbb8a19a59eb",
         "type": "tabs",
         "children": [
           {
-            "id": "5a3a4699bc5fff67",
+            "id": "4b233079a8a1c4b0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "linux/systemd.md",
+                "file": "nix/home-manager.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "systemd"
-            }
-          },
-          {
-            "id": "92c8a0efcd4241ab",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "linux/environment-variables.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "environment-variables"
+              "title": "home-manager"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -199,35 +184,37 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "92c8a0efcd4241ab",
+  "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "nixos-config/pages/post-installation.md",
+    "nix/home-manager.md",
+    "nixos-config/pages/nixos-installation.md",
     "linux/systemd.md",
+    "nix/nixos-installation-basic.md",
+    "linux/partitions.md",
+    "linux/omarchy.md",
+    "linux/network.md",
+    "linux/luks.md",
+    "linux/kernel.md",
+    "linux/filesystems.md",
+    "nixos-config/index.md",
+    "linux/firmware.md",
+    "nix/nix-explanations.md",
+    "nix/nix-commands.md",
+    "nixos-config/pages",
+    "nixos-config",
+    "apps/tailscale ★.md",
+    "apps/sops.md",
     "linux/environment-variables.md",
     "linux/desktop-portal.md",
     "linux/dbus.md",
     "apps/age.md",
-    "apps/tailscale ★.md",
-    "linux/network.md",
     "apps/bitwarden.md",
-    "linux/firmware.md",
-    "linux/filesystems.md",
-    "apps/sops.md",
-    "linux/partitions.md",
-    "nix/nixos-installation.md",
-    "nix/nixos-installation-basic.md",
-    "nix/nix-commands.md",
-    "nix/nix-explanations.md",
-    "linux/luks.md",
     "guides/disk-setup.md",
     "apps",
-    "linux/kernel.md",
     "linux/freedesktop.md",
     "ext4.md",
     "linux/filesystems 1.md",
-    "linux-vfs.md",
-    "filesystem^59afc8.md",
-    "linux/linux-vfs.md",
-    "nix/nix-git-model.md",
     "nix",
     "guides",
     "linux",

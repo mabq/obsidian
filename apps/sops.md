@@ -35,3 +35,13 @@ SOPS [recommends](https://getsops.io/docs/usage/identities/age/) using [[age]] o
 nixos-anywhere --extra-files /tmp/extra-files --flake .#myhost root@<TARGET_IP>
 ```
 
+
+---
+
+On the source machine:
+
+1. Generate an ssh key pair
+2. Transform the ssh public key into an age key with `ssh-to-age`.
+3. Add the new generated public age key to `.sops.yaml`
+4. Re-encrypt files with `sops updatekeys <path/to/secrets/file>.yaml` — I guess sops needs to decrypt the file first to encrypting it again, which private key does it use for that matter.
+5. 

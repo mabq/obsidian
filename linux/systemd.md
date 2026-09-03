@@ -19,7 +19,7 @@ Its main features are:
   Centralized, structured binary logging system (`journalctl`) that captures kernel, boot, and service logs in one place.
 <br>
 - **Target units**
-  Groups of units representing system states (e.g., `multi-user.target`, `graphical.target`), replacing traditional SysV runlevels.
+  Systemd's version of old-school SysV runlevels. They're synchronization points that group units together and represent a state the system reaches during boot (e.g., `multi-user.target`, `graphical.target`).
 <br>
 - **Socket, path, and timer activation**
   Services can be started on-demand (socket activation), when a file/path changes, or on a schedule (`.timer` units, replacing/complementing cron).
