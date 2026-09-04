@@ -13,4 +13,4 @@ sudo nix-collect-garbage -d
 sudo nixos-rebuild switch
 ```
 
-
+https://nixos-and-flakes.thiscute.world/best-practices/simplify-nixos-related-commands

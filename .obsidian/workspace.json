@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "linux/systemd.md",
+                "file": "nix/basics.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "systemd"
+              "title": "basics"
             }
           }
         ]
@@ -186,8 +186,10 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
-    "linux/environment-variables.md",
+    "nix/nix-commands.md",
+    "nix/basics.md",
     "linux/systemd.md",
+    "linux/environment-variables.md",
     "apps/age.md",
     "nix/home-manager.md",
     "nixos-config/pages/post-installation.md",
@@ -199,10 +201,8 @@
     "linux/luks.md",
     "linux/kernel.md",
     "linux/filesystems.md",
-    "nixos-config/index.md",
     "linux/firmware.md",
     "nix/nix-explanations.md",
-    "nix/nix-commands.md",
     "nixos-config/pages",
     "nixos-config",
     "apps/tailscale ★.md",
