@@ -43,6 +43,9 @@ age --decrypt <encrypted-file>.age
 
 To encrypt/decrypt using a public/private key pairs.
 
+> [!note]
+> See [[sops]] to seamless encryption using age keys.
+
 #### Create a key pair
 
 This command creates the file `keys.txt` containing your private and public keys. The public key is printed to the terminal:

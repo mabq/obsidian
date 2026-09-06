@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/age.md",
+                "file": "apps/sops.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "sops"
+            }
+          },
+          {
+            "id": "2b3a5ca21a27a2d4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "apps/sops.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "age"
+              "title": "sops"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -184,11 +199,12 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "4b233079a8a1c4b0",
+  "active": "2b3a5ca21a27a2d4",
   "lastOpenFiles": [
-    "apps/bitwarden.md",
-    "apps/age.md",
+    "apps/sops-nix.md",
     "apps/sops.md",
+    "apps/age.md",
+    "apps/bitwarden.md",
     "nix/nix-commands.md",
     "nix/basics.md",
     "linux/systemd.md",
@@ -214,7 +230,6 @@
     "apps",
     "linux/freedesktop.md",
     "ext4.md",
-    "linux/filesystems 1.md",
     "nix",
     "guides",
     "linux",
