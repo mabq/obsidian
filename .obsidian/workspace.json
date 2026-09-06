@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/basics.md",
-                "mode": "preview",
+                "file": "apps/age.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "basics"
+              "title": "age"
             }
           }
         ]
@@ -186,11 +186,13 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "apps/bitwarden.md",
+    "apps/age.md",
+    "apps/sops.md",
     "nix/nix-commands.md",
     "nix/basics.md",
     "linux/systemd.md",
     "linux/environment-variables.md",
-    "apps/age.md",
     "nix/home-manager.md",
     "nixos-config/pages/post-installation.md",
     "nixos-config/pages/nixos-installation.md",
@@ -206,10 +208,8 @@
     "nixos-config/pages",
     "nixos-config",
     "apps/tailscale ★.md",
-    "apps/sops.md",
     "linux/desktop-portal.md",
     "linux/dbus.md",
-    "apps/bitwarden.md",
     "guides/disk-setup.md",
     "apps",
     "linux/freedesktop.md",
