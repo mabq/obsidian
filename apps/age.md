@@ -16,12 +16,13 @@ Use the following commands to encrypt/decrypt files using a passphrase.
 Make sure you use a long, random passphrase.
 
 ```sh
-# Use text-based format instead of binary encoding
-age --armor --passphrase -o <entrypted-file>.age <file-to-encrypt>
-
-# Use binary encoding
-age --passphrase -o <entrypted-file>.age <file-to-encrypt>
+age -a -p -o <entrypted-file>.age <file-to-encrypt>
 ```
+
+   - `-a` (optional) outputs text-based format instead of binary (useful for email or pasting).
+   - `-p` encrypts with passphrase
+   - `-o` specifies the output file (creates encrypted file).
+
 
 #### Decrypt
 
@@ -56,13 +57,13 @@ age-keygen -o keys.txt
  
 #### Encrypt
 
-Then, encrypt a file for someone using their public key with the `-r` flag:
+Then, encrypt a file for someone:
 
 ```bash
-age --armor -r <recipient1_public_key> -o secret.txt.age secret.txt
+age -a -r <recipient_public_key> -o secret.txt.age secret.txt
 ```
 
-   - `--armor` outputs text-based format instead of binary (useful for email or pasting).
+   - `-a` (optional) outputs text-based format instead of binary (useful for email or pasting).
    - `-r` specifies the recipient's public key.
    - `-o` specifies the output file (creates encrypted file).
    - The last argument is the file to encrypt.
@@ -73,7 +74,7 @@ Or encrypt for multiple receipients (each recipient can independently decrypt th
 age -a -r <recipient1_public_key> -r <recipient2_public_key> -o secret.txt.age secret.txt
 ```
 
-To avoid passing many public keys to the command you can create a `recipients.txt` file with one public key per line (lines starting with `#` are ignored as comments):
+To avoid passing multiple public keys you can create a `recipients.txt` file with one public key per line (lines starting with `#` are ignored as comments):
 
 ```
 # Alice
