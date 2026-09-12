@@ -13,30 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/sops.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "sops"
-            }
-          },
-          {
-            "id": "2b3a5ca21a27a2d4",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "apps/sops.md",
+                "file": "programs/ssh.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "sops"
+              "title": "ssh"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -199,20 +184,22 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "2b3a5ca21a27a2d4",
+  "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "nix/mynix/installation.md",
+    "programs/ssh.md",
+    "programs/sops.md",
+    "programs/age.md",
     "apps/sops-nix.md",
-    "apps/sops.md",
-    "apps/age.md",
-    "apps/bitwarden.md",
+    "nix/mynix/pages/post-installation.md",
+    "Untitled.md",
+    "nix/home-manager.md",
+    "nix/nixos-installation-basic.md",
     "nix/nix-commands.md",
+    "programs/bitwarden.md",
     "nix/basics.md",
     "linux/systemd.md",
     "linux/environment-variables.md",
-    "nix/home-manager.md",
-    "nixos-config/pages/post-installation.md",
-    "nixos-config/pages/nixos-installation.md",
-    "nix/nixos-installation-basic.md",
     "linux/partitions.md",
     "linux/omarchy.md",
     "linux/network.md",
@@ -221,15 +208,13 @@
     "linux/filesystems.md",
     "linux/firmware.md",
     "nix/nix-explanations.md",
-    "nixos-config/pages",
-    "nixos-config",
-    "apps/tailscale ★.md",
+    "nix/mynix/pages",
+    "nix/mynix",
+    "programs/tailscale ★.md",
     "linux/desktop-portal.md",
     "linux/dbus.md",
     "guides/disk-setup.md",
-    "apps",
-    "linux/freedesktop.md",
-    "ext4.md",
+    "programs",
     "nix",
     "guides",
     "linux",

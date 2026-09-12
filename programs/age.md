@@ -30,11 +30,15 @@ Make sure you don't run this comman in a directory tracked by git
 
 ```sh
 # Decrypted to a file
-age --decrypt -o <output-file> <encrypted-file>.age
+age -d -o <output-file> <encrypted-file>.age
 
 # Send decrypted content to stdout
-age --decrypt <encrypted-file>.age
+age -d <encrypted-file>.age
 ```
+
+   - `-d` shorthand for `--decrypt`
+   - `-o` specifies the output file for the decrypted content.
+
 
 
 ## Asymetric encryption
@@ -51,7 +55,7 @@ To encrypt/decrypt using a public/private key pairs.
 This command creates the file `keys.txt` containing your private and public keys. The public key is printed to the terminal:
 
 ```bash
-age-keygen -o keys.txt
+age-keygen -o <path/to>/keys.txt
 ```
   
 > [!warning]
