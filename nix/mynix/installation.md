@@ -6,10 +6,10 @@
 **On the target machine:**
 
 - Boot from ISO
-- Check internet access (wired connection only): `ping 8.8.8.8`
+- Check internet access (wireless not supported): `ping 8.8.8.8`
 - Login as root: `sudo -i`
-- Change its password: `passwd`
-- Annotate its ip address: `ip a`
+- Change password: `passwd`
+- Annotate the ip address: `ip a`
 - Annotate the wwn id of the target disk: `lsblk -o NAME,ID-LINK`
 - Annotate the nixos version of the installer: `nixos-version`
 - (continue from the source machine...)
@@ -22,43 +22,35 @@
   - `flake.nix` - must point to the correct `host`, `user`, `profile` and `repoBranch` (if not `main`).
   - `/hosts/<host>.nix` -  make sure you replace the option values with the values you annotated previously from the target machine.
   - `/users/<user>.nix` - make sure your include an open ssh authorized key to avoid loosing access after installation.
-  - `/profiles/<profile>.nix` - make sure the file exists and contains the configs you need.
-- If you need sops-nix to decrypt secrets:
+  - `/profiles/<profile>.nix` - make sure the file exists and contains the configurations you need.
+  - `/secrets/<user>-<host>-<profile>.json` - if you want to pass secrets
+- Execute:
   ```sh
+  # ---------------------------
+  # If you want to pass secrets
+  # ---------------------------
   # Create a temporary directory
   temp=$(mktemp -d)
-  
-  # Recreate the path where sops-nix expects to find age's `keys.txt` (on the host)
+  # Recreate the host path where sops-nix expects to find the key
   pathToKey="$temp/var/lib/sops-nix"
   install -d -m755 "$pathToKey"
-  
-  # Copy the key and set correct permissions
-  cp <path/to/age/keys.txt> "$pathToKey/key.txt"
-  sudo chown <user> "$pathToKey/key.txt" # (current user)
+  # Copy the key and make it readable only by its user
+  age -d -o "$pathToKey/key.txt" ~/.local/share/mynix/config/sops/<USER>/keys.txt.age
   sudo chmod 600 "$pathToKey/key.txt"
   
-  # Install NixOS to the host system with our secrets
-  nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --generate-hardware-config nixos-facter hosts/facter/<host>.json --flake .#<nixos-configuration> --target-host root@<ip>
+  # --------------------------------
+  # Install NixOS on the target host
+  # --------------------------------
+  # Omit `--extra-files` line if you dont use secrets.
+  # Omit `--generate-hardware-config` if the `facter.json` report already exists.
+  
+  nix run github:nix-community/nixos-anywhere -- \
+    --extra-files "$temp" \
+    --generate-hardware-config nixos-facter hosts/facter/<host>.json \
+    --flake .#<nixos-configuration> \
+    --target-host root@<ip>
   ```
   
-  - `/secrets/<user>/<host>-<profile>.json` - make sure the file exist and includes the secrets you need. Use `sops` to create/edit secret files.
-  - `mkdir -p /tmp/extra-files/var/lib/sops-nix` - create a tmp dir matching the destination of the private key on the target host.
-  - Copy age private key to that directory.
-- Finally, execute one of the following commands:
-
-```sh
-nix run github:nix-community/nixos-anywhere -- \
-  --generate-hardware-config nixos-facter hosts/facter/<host>.json \
-  --flake .#<nixos-configuration> \
-  --target-host root@<ip address> \
-  --extra-files /tmp/extra-files
-```
-
-  - Enter root's password when prompted.
-  - Enter disk encryption passphrase when prompted.
-  - If everything wen't well the target computer should reboot.
-  - Delete the tmp dir containing the private key `sudo rm -rf /tmp/extra-files`
----
 
 ### From the device
 

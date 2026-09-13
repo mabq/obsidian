@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "programs/ssh.md",
+                "file": "nix/mynix/installation.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "ssh"
+              "title": "installation"
             }
           }
         ]
@@ -186,10 +186,11 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "programs/age.md",
     "nix/mynix/installation.md",
+    "programs/tailscale ★.md",
     "programs/ssh.md",
     "programs/sops.md",
-    "programs/age.md",
     "apps/sops-nix.md",
     "nix/mynix/pages/post-installation.md",
     "Untitled.md",
@@ -210,7 +211,6 @@
     "nix/nix-explanations.md",
     "nix/mynix/pages",
     "nix/mynix",
-    "programs/tailscale ★.md",
     "linux/desktop-portal.md",
     "linux/dbus.md",
     "guides/disk-setup.md",
