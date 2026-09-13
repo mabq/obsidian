@@ -1,34 +1,41 @@
-# NixOS Installation
+# mynix installation
 
 
-## nixos-anywhere
+## Remote installation
+
+Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywhere/#requirements).
 
 **On the target machine:**
 
 - Boot from ISO
-- Check internet access (wireless not supported): `ping 8.8.8.8`
+- Check internet access (wired): `ping 8.8.8.8`
 - Login as root: `sudo -i`
 - Change password: `passwd`
-- Annotate the ip address: `ip a`
-- Annotate the wwn id of the target disk: `lsblk -o NAME,ID-LINK`
-- Annotate the nixos version of the installer: `nixos-version`
-- (continue from the source machine...)
+- Annotate:
+  - Host's ip address: `ip a`
+  - Target disk's wwn id: `lsblk -o NAME,ID-LINK`
+  - Installer's nixos version: `nixos-version`
 
 **On the source machine:**
 
-- Clone the repo containing the flake (public) and `cd` into it. 
-- Checkout the desired branch (if not `main`): `git checkout <branch>`.
+- Clone the [repo](https://github.com/mabq/mynix) (public) and `cd` into it. 
+- Checkout the desired branch: `git checkout <branch>`.
 - Add / review the following files:
-  - `flake.nix` - must point to the correct `host`, `user`, `profile` and `repoBranch` (if not `main`).
-  - `/hosts/<host>.nix` -  make sure you replace the option values with the values you annotated previously from the target machine.
-  - `/users/<user>.nix` - make sure your include an open ssh authorized key to avoid loosing access after installation.
-  - `/profiles/<profile>.nix` - make sure the file exists and contains the configurations you need.
-  - `/secrets/<user>-<host>-<profile>.json` - if you want to pass secrets
-- Execute:
+  - `flake.nix`
+    Must point to the correct `host`, `user`, `profile` and `repoBranch` (if not `main`).
+  - `/hosts/<host>.nix`
+    Edit with the annotated values from the host above.
+  - `/users/<user>.nix`
+    Make sure to include an ssh authorized key to avoid loosing access after installation.
+  - `/profiles/<profile>.nix`
+    Make sure the file exists and contains the configurations you need.
+  - `/secrets/<user>-<host>-<profile>.json`
+    You only need to create this file if you wish to pass secrets.
+- Install nixos:
   ```sh
-  # ---------------------------
-  # If you want to pass secrets
-  # ---------------------------
+  # --------------------------------
+  # Only if you want to pass secrets
+  # --------------------------------
   # Create a temporary directory
   temp=$(mktemp -d)
   # Recreate the host path where sops-nix expects to find the key
@@ -41,8 +48,8 @@
   # --------------------------------
   # Install NixOS on the target host
   # --------------------------------
-  # Omit `--extra-files` line if you dont use secrets.
-  # Omit `--generate-hardware-config` if the `facter.json` report already exists.
+  # Omit `--extra-files` line if you dont pass secrets
+  # Omit `--generate-hardware-config` if `facter.json` already exist
   
   nix run github:nix-community/nixos-anywhere -- \
     --extra-files "$temp" \
