@@ -1,7 +1,7 @@
 # mynix installation
 
 
-## Remote installation
+## Using `nixos-anywhere`
 
 Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywhere/#requirements).
 
@@ -59,7 +59,7 @@ Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywh
   ```
   
 
-### From the device
+## Using `disko-install`
 
 > [!note]
 > You need access to your GitHub account. If you don't have another device at hand, use the Graphical ISO to access your password manager via a browser (still need the 2FA device).

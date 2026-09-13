@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/mynix/installation.md",
+                "file": "nix/git-analogy.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "installation"
+              "title": "git-analogy"
             }
           }
         ]
@@ -186,14 +186,16 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
-    "programs/age.md",
+    "linux/partitions.md",
+    "nix/git-analogy.md",
+    "Untitled.md",
     "nix/mynix/installation.md",
+    "programs/age.md",
     "programs/tailscale ★.md",
     "programs/ssh.md",
     "programs/sops.md",
     "apps/sops-nix.md",
     "nix/mynix/pages/post-installation.md",
-    "Untitled.md",
     "nix/home-manager.md",
     "nix/nixos-installation-basic.md",
     "nix/nix-commands.md",
@@ -201,7 +203,6 @@
     "nix/basics.md",
     "linux/systemd.md",
     "linux/environment-variables.md",
-    "linux/partitions.md",
     "linux/omarchy.md",
     "linux/network.md",
     "linux/luks.md",
@@ -213,7 +214,6 @@
     "nix/mynix",
     "linux/desktop-portal.md",
     "linux/dbus.md",
-    "guides/disk-setup.md",
     "programs",
     "nix",
     "guides",
