@@ -46,13 +46,14 @@ nix flake update
 temp=$(mktemp -d)
 pathToKey="$temp/var/lib/sops-nix"
 install -d -m755 "$pathToKey"
-cp /var/lib/sops-nix/key.txt "$pathToKey/key.txt"
+sudo cp /var/lib/sops-nix/key.txt "$pathToKey/key.txt"
 sudo chmod 600 "$pathToKey/key.txt"
 
 # Install NixOS on the remote host with `nixos-anywhere`
+#  (`sudo` is required to read the private key)
 #  (omit `--extra-files` line if you dont pass secrets)
 #  (omit `--generate-hardware-config` if `facter.json` already exist)
-nix run github:nix-community/nixos-anywhere -- \
+sudo nix run github:nix-community/nixos-anywhere -- \
   --extra-files "$temp" \
   --generate-hardware-config nixos-facter hosts/facter/<HOST>.json \
   --flake .#<NIXOS-CONFIGURATION> \
@@ -148,7 +149,7 @@ mkdir -p /mnt/var/lib/sops-nix
 
 # If secrets apply, copy the private key from the workstation to the host.
 # The key is owned by root, so you need to use `sudo`.
-sudo scp /var/lib/sops-nix/key.txt root@<IP>:/mnt/var/lib/sops-nix/key.txt
+sudo scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /var/lib/sops-nix/key.txt root@<IP>:/mnt/var/lib/sops-nix/key.txt
  
  
 # (SSH TERMINAL)
