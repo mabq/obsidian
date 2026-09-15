@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "nix/mynix/installation.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",

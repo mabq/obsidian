@@ -1,69 +1,66 @@
-# mynix installation
+# Installation
 
 
-## Using `nixos-anywhere` (recommended)
+## With `nixos-anywhere`
 
-Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywhere/#requirements).
+The host must be reachable over a wired network. Review [requirements](https://nix-community.github.io/nixos-anywhere/#requirements).
 
-**On the target machine:**
+On the target host:
 
-- Boot from ISO
-- Check internet access (wired): `ping 8.8.8.8`
-- Annotate:
-  - Host's ip address: `ip a`
-  - Target disk's wwn id: `lsblk -o NAME,ID-LINK`
-  - Installer's nixos version: `nixos-version`
-- Login as root: `sudo -i`
-- Change password: `passwd`
+```sh
+# Boot from the ISO
 
-**On the source machine:**
+# Connect the ethernet cable and check the connection (wireless not supported)
+ping 8.8.8.8
 
-- Clone the [repo](https://github.com/mabq/mynix) (public) and `cd` into it. 
-- Checkout the desired branch: `git checkout <branch>`.
-- Add / review the following files:
-  - `flake.nix`
-    Must point to the correct `host`, `user`, `profile` and `repoBranch` (if not `main`).
-  - `/hosts/<host>.nix`
-    Edit with the annotated values from the host above.
-  - `/users/<user>.nix`
-    Make sure to include an ssh authorized key to avoid loosing access after installation.
-  - `/profiles/<profile>.nix`
-    Make sure the file exists and contains the configurations you need.
-  - `/secrets/<user>-<host>-<profile>.json`
-    You only need to create this file if you wish to pass secrets.
-- Install nixos:
-  ```sh
-  # --------------------------------
-  # Only if you want to pass secrets
-  # --------------------------------
-  # Create a temporary directory
-  temp=$(mktemp -d)
-  # Recreate the host path where sops-nix expects to find the key
-  pathToKey="$temp/var/lib/sops-nix"
-  install -d -m755 "$pathToKey"
-  # Copy the key and make it readable only by its user
-  age -d -o "$pathToKey/key.txt" ~/.local/share/mynix/config/sops/<USER>/keys.txt.age
-  sudo chmod 600 "$pathToKey/key.txt"
+# Change root's password
+sudo -i # login as root (no password)
+passwd # enter new password when prompted
+
+# Get host's details
+ip a # ip address
+lsblk -o NAME,ID-LINK # wwn id of target disk
+nixos-version # installer version
+```
+
+On the workstation:
+
+```sh
+# I assume the workstation: 1) is logged into GitHub, 2) has cloned the
+# repository, 3) has the secret's private key in place.
+
+# Cd into the flake directory
+cd ~/.local/share/mynix
+git checkout <branch>
+
+# Open repo and review configs.
+vim .
+# - In the host file, pay special attention to `disko.devices.disk.main.device`
+#   and `system.stateVersion`.
+# - If secrets are required, create/edit the secrets file with `sops`.
+
+# Close vim and update the flake
+nix flake update
+
+# Prepare "extra-files" directory (omit if secrets are not required)
+temp=$(mktemp -d)
+pathToKey="$temp/var/lib/sops-nix"
+install -d -m755 "$pathToKey"
+cp /var/lib/sops-nix/key.txt "$pathToKey/key.txt"
+sudo chmod 600 "$pathToKey/key.txt"
+
+# Install NixOS on the remote host with `nixos-anywhere`
+#  (omit `--extra-files` line if you dont pass secrets)
+#  (omit `--generate-hardware-config` if `facter.json` already exist)
+nix run github:nix-community/nixos-anywhere -- \
+  --extra-files "$temp" \
+  --generate-hardware-config nixos-facter hosts/facter/<HOST>.json \
+  --flake .#<NIXOS-CONFIGURATION> \
+  --target-host root@<IP>
+```
   
-  # --------------------------------
-  # Install NixOS on the target host
-  # --------------------------------
-  # Omit `--extra-files` line if you dont pass secrets
-  # Omit `--generate-hardware-config` if `facter.json` already exist
-  
-  nix run github:nix-community/nixos-anywhere -- \
-    --extra-files "$temp" \
-    --generate-hardware-config nixos-facter hosts/facter/<HOST>.json \
-    --flake .#<NIXOS-CONFIGURATION> \
-    --target-host root@<IP>
-  ```
-  
 
-## Using `disko` and `nixos-install`
-
-This method requieres authenticating to GitHub (2FA device or recovery code).
-
-Update flake.lock
+## With `disko`
 
 ### With your workstation
 
@@ -80,13 +77,13 @@ passwd # enter new password when prompted
 ip a # get the ip address
 ```
 
-On your workstation:
+On the workstation:
 
 ```sh
 # I assume the workstation: 1) is logged into GitHub, 2) has cloned the
-# repository, 3) has the secrets private key in place.
+# repository, 3) has the secret's private key in place.
 
-# Open 2 terminals. One will be used exclusively to execute commands on the
+# Open two terminals. One will be used exclusively to execute commands on the
 # host via ssh, the other one to execute commands on the local workstation.
 
 
@@ -107,15 +104,15 @@ nix --experimental-features "nix-command flakes" run "nixpkgs#nixos-facter" -- -
 
 # Cd into the flake directory
 cd ~/.local/share/mynix
+git checkout <branch>
 
 # Copy the facter report from the host to the workstation
 scp root@<HOST-IP>:/tmp/<HOST>.json hosts/facter/<HOST>.json
 
 # Open repo and review configs.
 vim .
-# - In the host file, pay special attention to:
-#   `disko.devices.disk.main.device`
-#   `system.stateVersion`
+# - In the host file, pay special attention to `disko.devices.disk.main.device`
+#   and `system.stateVersion`.
 # - If secrets are required, create/edit the secrets file with `sops`.
 
 # Close vim and update the flake
@@ -165,6 +162,8 @@ nixos-install --flake .#<NIXOS-CONFIG>
 
 
 ### Without your workstation
+
+This method requieres authenticating to GitHub (2FA device or recovery code).
 
 ```sh
 # Boot from the ISO...
