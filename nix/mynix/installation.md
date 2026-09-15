@@ -1,7 +1,7 @@
 # mynix installation
 
 
-## Using `nixos-anywhere`
+## Using `nixos-anywhere` (recommended)
 
 Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywhere/#requirements).
 
@@ -9,12 +9,12 @@ Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywh
 
 - Boot from ISO
 - Check internet access (wired): `ping 8.8.8.8`
-- Login as root: `sudo -i`
-- Change password: `passwd`
 - Annotate:
   - Host's ip address: `ip a`
   - Target disk's wwn id: `lsblk -o NAME,ID-LINK`
   - Installer's nixos version: `nixos-version`
+- Login as root: `sudo -i`
+- Change password: `passwd`
 
 **On the source machine:**
 
@@ -53,75 +53,214 @@ Review nixos-anywhere [requirements](https://nix-community.github.io/nixos-anywh
   
   nix run github:nix-community/nixos-anywhere -- \
     --extra-files "$temp" \
-    --generate-hardware-config nixos-facter hosts/facter/<host>.json \
-    --flake .#<nixos-configuration> \
-    --target-host root@<ip>
+    --generate-hardware-config nixos-facter hosts/facter/<HOST>.json \
+    --flake .#<NIXOS-CONFIGURATION> \
+    --target-host root@<IP>
   ```
   
 
-## Using `disko-install`
+## Using `disko` and `nixos-install`
 
-> [!note]
-> You need access to your GitHub account. If you don't have another device at hand, use the Graphical ISO to access your password manager via a browser (still need the 2FA device).
+This method requieres authenticating to GitHub (2FA device or recovery code).
 
-- Connect to internet. For wireless networks use `nmtui`.
-- Login as root: `sudo -i`.
-- Continue over ssh (optional). Run `passwd` to change root's password.
-- Enable nix features: `export NIX_CONFIG="experimental-features = nix-command flakes"`.
-- Install packages with: `nix shell nixpkgs#{gh,neovim,age,yazi}`.
-- Authenticate to GitHub: `gh auth login`.
-- Clone the repo: `gh repo clone mabq/mynix`.
-- Change directory: `cd mynix`.
-- Checkout the branch you want: `git checkout <branck>`
-- Generate a facter report: `nix run nixpkgs#nixos-facter -- -o ./hosts/facter/<host>.json`
-- Decrypt the private age key into a tmp file: `age -d -o /tmp/keys.txt secrets/<user>/keys.txt.age`. IMPORTANT! Be very careful not to put the decrypted key in a directory inside the cloned repository.
-- Open the project `nvim .` and check that everything is in place - specially the options in the targeted host file.
-- Verify changes with `git status`.
-- Add, commit and push changes upstream: `git add .`, `git commit -m "..."` and `git push`.
-- Run disko, using the configuration inside the flake: `sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko#disko-install -- --flake .#<nixos-config>`.
+Update flake.lock
+
+### With your workstation
+
+On the target host:
 
 ```sh
-sudo nix --extra-experimental-features "nix-command flakes" \
-  run github:nix-community/disko/latest#disko-install -- \
-  --flake ".#<your-config>" \
-  --extra-files "/tmp/keys.txt" "/home/john/.config/sops/age/keys.txt" \
-  --write-efi-boot-entries
+# Boot from the ISO...
+
+# Change root's password
+sudo -i # login as root (no password)
+passwd # enter new password when prompted
+
+# Connect to internet (ethernet or `nmtui`)
+ip a # get the ip address
+```
+
+On your workstation:
+
+```sh
+# I assume the workstation: 1) is logged into GitHub, 2) has cloned the
+# repository, 3) has the secrets private key in place.
+
+# Open 2 terminals. One will be used exclusively to execute commands on the
+# host via ssh, the other one to execute commands on the local workstation.
+
+
+# (SSH TERMINAL)
+
+# ssh into the target host
+ssh root@<HOST-IP> # enter password when prompted
+
+# Get host's details
+lsblk -o NAME,ID-LINK # wwn id of target disk
+nixos-version # installer version
+
+# Generate the facter report
+nix --experimental-features "nix-command flakes" run "nixpkgs#nixos-facter" -- -o /tmp/<HOST>.json
+
+
+# (WORKSTATION TERMINAL)
+
+# Cd into the flake directory
+cd ~/.local/share/mynix
+
+# Copy the facter report from the host to the workstation
+scp root@<HOST-IP>:/tmp/<HOST>.json hosts/facter/<HOST>.json
+
+# Open repo and review configs.
+vim .
+# - In the host file, pay special attention to:
+#   `disko.devices.disk.main.device`
+#   `system.stateVersion`
+# - If secrets are required, create/edit the secrets file with `sops`.
+
+# Close vim and update the flake
+nix flake update
+
+# Once all configurations are ready, commit and push (use lazygit or):
+git status
+git add .
+git commit -m "<MESSAGE>"
+git push
+
+
+# (SSH TERMINAL)
+
+# Clone the repository (public)
+git clone https://github.com/mabq/mynix
+cd mynix
+git checkout <branch> # (optionally)
+
+# Run disko (destroy, partition, format and mount)
+# NOTE: If you get an error here mentioning lack of space; reboot the
+# machine, clone the repo again an re-run.
+nix --extra-experimental-features "nix-command flakes" run 'github:nix-community/disko/latest' -- --mode disko --flake .#<NIXOS-CONFIG>
+  
+# Review partitions are mounted (`/mnt` and `/mnt/boot`)
+lsblk
+
+# Create dir for private key
+mkdir -p /mnt/var/lib/sops-nix
+
+ 
+# (WORKSTATION TERMINAL)
+
+# If secrets apply, copy the private key from the workstation to the host.
+# The key is owned by root, so you need to use `sudo`.
+sudo scp /var/lib/sops-nix/key.txt root@<IP>:/mnt/var/lib/sops-nix/key.txt
+ 
+ 
+# (SSH TERMINAL)
+
+# Ensure private key is only readable by root
+chmod 600 /mnt/var/lib/sops-nix/key.txt
+
+# Install
+nixos-install --flake .#<NIXOS-CONFIG>
 ```
 
 
+### Without your workstation
 
+```sh
+# Boot from the ISO...
 
+# Connect to internet (ethernet or `nmtui`)
+ping 8.8.8.8 # test the connection
 
-### Manual Installation
+# Annotate the following host's details
+ip a # ip address
+lsblk -o NAME,ID-LINK # wwn id of the target disk
+nixos-version # installer version
 
-In consequence, you need to:
+# Continue as root
+sudo -i # login as root (no password)
+passwd # change its password
 
-1. Do a basic NixOS install — this will create the user account and home dir:
-	- [Graphical Installation](https://nixos.org/manual/nixos/stable/#sec-installation-graphical) — good enough when no special partitioning is required.
-	- [[#^70a55c|Manual Installation]] — when a special partition layout is required. Edit `configuration.nix` so that you can connect to the internet and the user account is created.
-2. Reboot and re-login.
-3. Run `nix shell "nixpkgs#git" "nixpkgs#gh" "nixpkgs#neovim" "nixpkgs#yazi"`.
-4. Login to GitHub using `gh`.
-	- Do I really need to login to clone a public repo?
-5. Clone the repository to `~/.local/share/nixos-config`.
-6.  the generated `hardware-configuration.nix` file into the repository's `hwconfig` directory.
-	- Change its name to something that lets you identify the machine it belongs to.
-	- One machine may have many hardware configuration files — one as the result of a manual installation, another one used for automated installations with `nixos-anywhere`, and so on.
-	- Must be separated from the profile, otherwise you wouldn't be able to use the same profile on different machines.
-7. Edit the flake, so that the desired configuration points to the right hardware configuration file.
-8. Decrypt user's age private key
+# Continue via ssh from another machine (`ssh root@<IP>`)
 
-	```sh
-	# Make sure you target the "mounted" filesystem, not the live ISO.
-	mkdir /mnt/home/<USER>/.config/sops/age
-	# Careful about where you put the decrypted private key ⚠️
-	age --decrypt -o /mnt/home/<USER>/.config/sops/age/keys.txt /mnt/home/<USER>/.local/share/nixos-config/users/<USER>/keys.txt.age
-	# Should only be readable by the owner!
-	chmod 600 /mnt/home/<USER>/.config/sops/age/keys.txt
-	```
+# Clone the repository
+git clone https://github.com/mabq/mynix
+cd mynix
+git checkout <branch>
 
-Publishing the encrypted key alongside the flake is no worse than publishing any other ciphertext. There's no rate-limiting on offline brute force since anyone can copy the file, so don't get lazy on entropy — treat it like a disk-encryption passphrase, not a login password.
+# Configure git (required to add files to git, files not added to git are 
+# invisible to nix).
+git config --global user.email "<EMAIL>"
+git config --global user.name "<NAME>"
 
----
+# Authenticate with gh to be able to push changes
+nix --experimental-features "nix-command flakes" shell nixpkgs#gh
+gh auth login
 
-[[filesystems#^d53876|Filesystem UUIDs]] change every time you install (or re-install) NixOS, regardless if you use the graphical installer or not. Additionally, you cannot guarantee the same partition layout or filesystem types will be used when doing a full re-install.
+# -----------------------------------------------------------------------------
+# Generate a `facter.json` report
+# -----------------------------------------------------------------------------
+
+# If this is the first time configuring this host (or if you want to update
+# its facter report) execute the following command.
+#
+# A facter.json report provides richer, more flexible hardware detection: it
+# dumps a detailed machine-readable JSON report that NixOS modules interpret
+# to auto-enable drivers, kernel modules, graphics, networking, firmware, etc.
+# Instead of baking fixed choices into Nix code (`hardware-configuration.nix`).
+#
+# Disko takes care of all file system configurations.
+nix --experimental-features "nix-command flakes" run "nixpkgs#nixos-facter" -- -o hosts/facter/<HOST>.json
+
+# (Use as fallback)
+# Just in case you prefer the old approach, this is the command to # execute
+# to generate a hardware configuration file.
+nixos-generate-config --no-filesystems --root /mnt
+mv /mnt/etc/nixos/hardware-configuration.nix hosts/hardware-configuration/<HOST>.nix
+
+# -----------------------------------------------------------------------------
+# Disk setup with Disko
+# -----------------------------------------------------------------------------
+
+# Open the host file and make sure it imports the desired disko configuration.
+# Update `disko.devices.disk.main.device` and `system.stateVersion` with the
+# values obtained previously.
+vim hosts/<HOST>.nix
+
+# Add files to git to make them visible to nix
+git status
+git add .
+git commit -m "Facter report for <HOST>"
+
+# Run disko (destroy, partition, format and mount)
+nix --extra-experimental-features "nix-command flakes" \
+  run 'github:nix-community/disko/latest' -- \
+  --mode disko \
+  --flake .#<NIXOS-CONFIG>
+  
+# Review
+lsblk # partitions should appear mounted in `/mnt` and `/mnt/boot`
+
+# -----------------------------------------------------------------------------
+# Secrets
+# -----------------------------------------------------------------------------
+
+# If your configuration included a secrets file, put the key in place so
+# that secrets are decrypted during installation.
+
+nix --experimental-features "nix-command flakes" shell nixpkgs#age
+age -d -o /mnt/var/lib/sops-nix/key.txt /config/sops/<USER>/keys.txt.age
+chmod 600 /mnt/var/lib/sops-nix/key.txt
+
+# -----------------------------------------------------------------------------
+# Push changes upstream
+# -----------------------------------------------------------------------------
+git status
+git add .
+git commit -m "<MESSAGE>"
+git push
+
+# Install
+# -----------------------------------------------------------------------------
+nixos-install --flake .#<NIXOS-CONFIG>
+```

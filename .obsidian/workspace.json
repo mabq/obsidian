@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/git-analogy.md",
-                "mode": "preview",
+                "file": "nix/mynix/installation.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "git-analogy"
+              "title": "installation"
             }
           }
         ]
@@ -186,8 +186,10 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
-    "linux/partitions.md",
+    "linux/desktop-portal.md",
+    "linux/freedesktop.md",
     "nix/git-analogy.md",
+    "linux/partitions.md",
     "Untitled.md",
     "nix/mynix/installation.md",
     "programs/age.md",
@@ -212,8 +214,6 @@
     "nix/nix-explanations.md",
     "nix/mynix/pages",
     "nix/mynix",
-    "linux/desktop-portal.md",
-    "linux/dbus.md",
     "programs",
     "nix",
     "guides",
