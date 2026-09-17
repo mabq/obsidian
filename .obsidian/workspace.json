@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "nix/mynix/installation.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
@@ -180,18 +180,21 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-git:Open Git source control": false,
-      "callout-manager:Insert Callout": false
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "nix/nixos-installation-basic.md",
+    "nix/mynix/installation.md",
+    "serviauto.md",
+    "Untitled.md",
+    "Untitled 2.md",
+    "Untitled 1.md",
     "linux/desktop-portal.md",
     "linux/freedesktop.md",
     "nix/git-analogy.md",
     "linux/partitions.md",
-    "Untitled.md",
-    "nix/mynix/installation.md",
     "programs/age.md",
     "programs/tailscale ★.md",
     "programs/ssh.md",
@@ -199,7 +202,6 @@
     "apps/sops-nix.md",
     "nix/mynix/pages/post-installation.md",
     "nix/home-manager.md",
-    "nix/nixos-installation-basic.md",
     "nix/nix-commands.md",
     "programs/bitwarden.md",
     "nix/basics.md",
@@ -209,9 +211,6 @@
     "linux/network.md",
     "linux/luks.md",
     "linux/kernel.md",
-    "linux/filesystems.md",
-    "linux/firmware.md",
-    "nix/nix-explanations.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
