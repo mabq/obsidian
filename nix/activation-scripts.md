@@ -1,6 +1,5 @@
-# Home Manager
 
-### Activation scripts
+# Activation scripts
 
 ```nix
 home.activation = {

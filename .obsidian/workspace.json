@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/mynix/installation.md",
-                "mode": "source",
+                "file": "nix/installation.md",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
               "title": "installation"
+            }
+          },
+          {
+            "id": "8cb2f00a9e470a5f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "programs/age.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "age"
             }
           }
         ]
@@ -185,32 +199,32 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "nix/nix-commands.md",
+    "programs/age.md",
+    "nix/installation.md",
+    "nix/learning notes.md",
     "nix/nixos-installation-basic.md",
-    "nix/mynix/installation.md",
+    "nix/nix-explanations.md",
+    "nix/activation-scripts.md",
+    "nix/git-analogy.md",
     "serviauto.md",
     "Untitled.md",
     "Untitled 2.md",
     "Untitled 1.md",
     "linux/desktop-portal.md",
     "linux/freedesktop.md",
-    "nix/git-analogy.md",
     "linux/partitions.md",
-    "programs/age.md",
     "programs/tailscale ★.md",
     "programs/ssh.md",
     "programs/sops.md",
     "apps/sops-nix.md",
     "nix/mynix/pages/post-installation.md",
-    "nix/home-manager.md",
-    "nix/nix-commands.md",
     "programs/bitwarden.md",
-    "nix/basics.md",
     "linux/systemd.md",
     "linux/environment-variables.md",
     "linux/omarchy.md",
     "linux/network.md",
     "linux/luks.md",
-    "linux/kernel.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
