@@ -3,23 +3,28 @@
 
 ## Helpful resourses
 
+Nix ecosystem:
+
+- [Nix(OS) Ecosystem Explained](https://www.youtube.com/watch?v=X_jMqi-0SrM) (vimjoyer)
+
 Flakes:
 
 - [Ultimage Nix flakes guide](https://youtu.be/JCeYq72Sko0?t=162) (vimjoyer)
 - [Introduction to flakes](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes) (ryan4yin)
-
-Updates:
-
 - [NixOS Updating | Flakes & Channels](https://www.youtube.com/watch?v=fLICrNK_COw&t=6s) (vimjoyer)
-
-Nix REPL:
-
-- [Debug Your Nix Code Fast with Nix REPL](https://www.youtube.com/watch?v=swiWnAwionc) (vimjoyer)
 
 Functions:
 
 - [Nix Functions Explained](https://www.youtube.com/watch?v=HiTgbsFlPzs) (vimjoyer)
 - [Noogle](https://noogle.dev/)
+
+Nix modules:
+
+- [NixOS Module Anatomy](https://www.youtube.com/watch?v=xdDZT1cEuLU)
+
+Nix REPL:
+
+- [Debug Your Nix Code Fast with Nix REPL](https://www.youtube.com/watch?v=swiWnAwionc) (vimjoyer)
 
 
 ## Helpful commands

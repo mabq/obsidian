@@ -17,7 +17,7 @@ This document shows how to install NixOS with "mynix" flake and secrets — for 
 > - **`hosts/<HOST>.nix`**
 >
 >	If the host uses disko + facter, make sure:
->	- The `imports` section imports disko modules and desired disk configuration.
+>	- The `imports` section imports the desired disko configuration.
 >	- The option `disko.devices.disk.main.device` points to the correct target disk — use `lsblk -o NAME,ID-LINK` to check the target disk wwn id.
 >	- The option `hardware.facter.reportPath` is enabled and points to the host facter report.
 >	- The option `system.stateVersion` matches the version of the installer — use `nixos-version` to check the version of the installer.
