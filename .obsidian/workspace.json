@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/installation.md",
+                "file": "nix/learning notes.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "installation"
+              "title": "learning notes"
             }
           },
           {
@@ -199,6 +199,7 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "nix/installation.md",
     "linux/systemd.md",
     "nix/activation-scripts.md",
     "programs/tailscale ★.md",
@@ -207,7 +208,6 @@
     "programs/bitwarden.md",
     "programs/age.md",
     "nix/learning notes.md",
-    "nix/installation.md",
     "nix/nix-commands.md",
     "nix/nixos-installation-basic.md",
     "nix/nix-explanations.md",

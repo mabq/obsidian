@@ -1,7 +1,18 @@
 # Basics
 
 
-## Helpful resourses
+## Vimjoyer nix course
+
+Best nix course found so far!
+
+- [What is Nix](https://www.vimjoyer.com/course/what-nix-is/) 
+- [Nix Language Basics](https://www.vimjoyer.com/course/nix-language/)
+- [Sets and decisions](https://www.vimjoyer.com/course/sets-and-decisions/)
+- [Functions](https://www.vimjoyer.com/course/functions/)
+- [Named function inputs](https://www.vimjoyer.com/course/function-arguments/)
+- [Meed nixpkgs](https://www.vimjoyer.com/course/nixpkgs-basics/)
+- [NixOS configuration](https://www.vimjoyer.com/course/nixos-basics/)
+- [Try nix without installing](https://www.vimjoyer.com/course/nix-cli/)
 
 Nix ecosystem:
 
@@ -13,11 +24,6 @@ Flakes:
 - [Introduction to flakes](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes) (ryan4yin)
 - [NixOS Updating | Flakes & Channels](https://www.youtube.com/watch?v=fLICrNK_COw&t=6s) (vimjoyer)
 
-Functions:
-
-- [Nix Functions Explained](https://www.youtube.com/watch?v=HiTgbsFlPzs) (vimjoyer)
-- [Noogle](https://noogle.dev/)
-
 Nix modules:
 
 - [NixOS Module Anatomy](https://www.youtube.com/watch?v=xdDZT1cEuLU)
@@ -25,6 +31,14 @@ Nix modules:
 Nix REPL:
 
 - [Debug Your Nix Code Fast with Nix REPL](https://www.youtube.com/watch?v=swiWnAwionc) (vimjoyer)
+
+
+## Nix language
+
+Nix describes **one value**, and everything is an expression.
+
+- [Nix Functions Explained](https://www.youtube.com/watch?v=HiTgbsFlPzs) (vimjoyer)
+- [Noogle](https://noogle.dev/) (library functions)
 
 
 ## Helpful commands
