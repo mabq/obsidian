@@ -13,26 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/learning notes.md",
+                "file": "nix/ultimate-nix-course.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "learning notes"
-            }
-          },
-          {
-            "id": "8cb2f00a9e470a5f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "programs/age.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "age"
+              "title": "ultimate-nix-course"
             }
           }
         ]
@@ -199,6 +185,8 @@
   },
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
+    "nix/learning notes.md",
+    "nix/ultimate-nix-course.md",
     "nix/installation.md",
     "linux/systemd.md",
     "nix/activation-scripts.md",
@@ -207,7 +195,6 @@
     "programs/sops.md",
     "programs/bitwarden.md",
     "programs/age.md",
-    "nix/learning notes.md",
     "nix/nix-commands.md",
     "nix/nixos-installation-basic.md",
     "nix/nix-explanations.md",
@@ -224,7 +211,6 @@
     "linux/environment-variables.md",
     "linux/omarchy.md",
     "linux/network.md",
-    "linux/luks.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
