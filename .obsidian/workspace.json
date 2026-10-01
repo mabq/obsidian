@@ -186,8 +186,9 @@
   "active": "4b233079a8a1c4b0",
   "lastOpenFiles": [
     "nix/learning notes.md",
-    "nix/ultimate-nix-course.md",
     "nix/installation.md",
+    "nix/ultimate-nix-course.md",
+    "nix/nix-commands.md",
     "linux/systemd.md",
     "nix/activation-scripts.md",
     "programs/tailscale ★.md",
@@ -195,7 +196,6 @@
     "programs/sops.md",
     "programs/bitwarden.md",
     "programs/age.md",
-    "nix/nix-commands.md",
     "nix/nixos-installation-basic.md",
     "nix/nix-explanations.md",
     "nix/git-analogy.md",

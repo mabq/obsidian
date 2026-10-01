@@ -176,6 +176,7 @@ Comming soon...
 - The type is a gate, and `default` is the only one of the four that reaches the machine.
 - Read merged values back through `config`, usually named `cfg` at the top of the file.
 - Keep declarations and their effect in one module, then set them from another.
+- Structure: The module file owns the rules and the effect. The config file only chooses values.
 
 #### [NixOS services]()
 
@@ -185,6 +186,9 @@ Comming soon...
 ## The flake fall (Daily driver)
 
 #### [Flakes](https://www.vimjoyer.com/course/flakes/)
+
+> [!tip]
+> Watch [Ultimate Nix Flekes Guide](https://www.youtube.com/watch?v=JCeYq72Sko0)
 
 - A common unpinned channel setup can move several independent Nix files at once.
 - `flake.nix` names moving inputs and the outputs a project offers.

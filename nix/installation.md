@@ -33,6 +33,7 @@ This document shows how to install NixOS with "mynix" flake and secrets — for 
 > - `users/<USER>.nix`
 >
 >	Make sure `openssh.authorizedKeys.keys` includes your public ssh key to avoid loosing access after the build.
+> If you add a new user make sure to add a new config file for `git`.
 >	<br>
 >	
 > - `profiles/<PROFILE>.nix`
