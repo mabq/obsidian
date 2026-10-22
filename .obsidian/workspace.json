@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "ultimate-nix-course"
             }
+          },
+          {
+            "id": "1497b3e500b76b57",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "nix/dendritic.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "dendritic"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -183,11 +198,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4b233079a8a1c4b0",
+  "active": "1497b3e500b76b57",
   "lastOpenFiles": [
+    "nix/ultimate-nix-course.md",
+    "nix/dendritic.md",
     "nix/learning notes.md",
     "nix/installation.md",
-    "nix/ultimate-nix-course.md",
     "nix/nix-commands.md",
     "linux/systemd.md",
     "nix/activation-scripts.md",
@@ -200,7 +216,6 @@
     "nix/nix-explanations.md",
     "nix/git-analogy.md",
     "serviauto.md",
-    "Untitled.md",
     "Untitled 2.md",
     "Untitled 1.md",
     "linux/desktop-portal.md",

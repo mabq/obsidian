@@ -188,7 +188,7 @@ Comming soon...
 #### [Flakes](https://www.vimjoyer.com/course/flakes/)
 
 > [!tip]
-> Watch [Ultimate Nix Flekes Guide](https://www.youtube.com/watch?v=JCeYq72Sko0)
+> Watch [flakes guide](https://www.youtube.com/watch?v=JCeYq72Sko0), [flake parts](https://www.youtube.com/watch?v=kvprcW6QMIE) and [dendritic pattern](https://www.youtube.com/watch?v=-TRbzkw6Hjs)
 
 - A common unpinned channel setup can move several independent Nix files at once.
 - `flake.nix` names moving inputs and the outputs a project offers.
