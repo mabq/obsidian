@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "e4d8bbb8a19a59eb",
+        "id": "be2797541cb12c58",
         "type": "tabs",
         "children": [
           {
-            "id": "4b233079a8a1c4b0",
+            "id": "66c0fe723fdd743e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/ultimate-nix-course.md",
+                "file": "ai/agents.md.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "ultimate-nix-course"
-            }
-          },
-          {
-            "id": "1497b3e500b76b57",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "nix/dendritic.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "dendritic"
+              "title": "agents.md"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,8 +183,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "1497b3e500b76b57",
+  "active": "66c0fe723fdd743e",
   "lastOpenFiles": [
+    "ai/agents.md.md",
+    "ai",
     "nix/ultimate-nix-course.md",
     "nix/dendritic.md",
     "nix/learning notes.md",
@@ -225,7 +212,6 @@
     "nix/mynix/pages/post-installation.md",
     "linux/environment-variables.md",
     "linux/omarchy.md",
-    "linux/network.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
