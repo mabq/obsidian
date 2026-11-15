@@ -14,14 +14,43 @@
               "type": "markdown",
               "state": {
                 "file": "ai/agents.md.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
               "title": "agents.md"
             }
+          },
+          {
+            "id": "64d1cccaabfe32b7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "programs/mise.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "mise"
+            }
+          },
+          {
+            "id": "46d1d2f63f2541ae",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "programs/devbox.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "devbox"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -183,8 +212,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "66c0fe723fdd743e",
+  "active": "46d1d2f63f2541ae",
   "lastOpenFiles": [
+    "programs/devbox.md",
+    "programs/mise.md",
+    "herdr.md",
+    "tool managers",
     "ai/agents.md.md",
     "ai",
     "nix/ultimate-nix-course.md",
@@ -209,9 +242,6 @@
     "linux/freedesktop.md",
     "linux/partitions.md",
     "apps/sops-nix.md",
-    "nix/mynix/pages/post-installation.md",
-    "linux/environment-variables.md",
-    "linux/omarchy.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
