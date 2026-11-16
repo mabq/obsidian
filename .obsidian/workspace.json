@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "mise"
             }
+          },
+          {
+            "id": "548e50d0a557fb90",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "ai/mcp.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "mcp"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -183,11 +198,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "46d1d2f63f2541ae",
+  "active": "548e50d0a557fb90",
   "lastOpenFiles": [
+    "programs/mise.md",
+    "ai/mcp.md",
     "programs/devbox.md",
     "ai/agents.md.md",
-    "programs/mise.md",
     "herdr.md",
     "tool managers",
     "ai",
@@ -212,7 +228,6 @@
     "linux/desktop-portal.md",
     "linux/freedesktop.md",
     "linux/partitions.md",
-    "apps/sops-nix.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
