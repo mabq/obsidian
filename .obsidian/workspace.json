@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "46d1d2f63f2541ae",
+            "id": "fd554d1f9b03bc75",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,23 +20,8 @@
               "icon": "lucide-file",
               "title": "mise"
             }
-          },
-          {
-            "id": "548e50d0a557fb90",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ai/mcp.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "mcp"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,8 +183,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "548e50d0a557fb90",
+  "active": "fd554d1f9b03bc75",
   "lastOpenFiles": [
+    "TODO.md",
     "programs/mise.md",
     "ai/mcp.md",
     "programs/devbox.md",
@@ -227,7 +213,6 @@
     "Untitled 1.md",
     "linux/desktop-portal.md",
     "linux/freedesktop.md",
-    "linux/partitions.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",

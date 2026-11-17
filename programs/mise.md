@@ -1,24 +1,38 @@
 # Mise
 
-- It’s a runtime and tool-version manager — it installs and switches between versions of languages and CLI tools like Node, Python, Go, Ruby, Terraform, or kubectl, and it can pin versions per project through a `mise.toml` file.
-- It helps is in the part of your setup that changes most often: the developer toolchains. Use the system package manager for general-purpose tools you use every day and `mise` for language runtimes and project-specific tools that need to match the team’s versions.
-- `mise` and the system package manager can overlap — if you have nodejs installed system-wide and also in mise, the one earlier in your `PATH` wins, so remove the pacman copies of anything mise manages.
-- Does not hide system tools — works on my machine issue.
+`mise` started strictly as a **Polyglot Runtime Manager**—handling versions of Node.js, Python, Go, Ruby, and Java per project.
 
-## Notes
+However, because developers always need to orchestrate surrounding tools, tasks, and environments, `mise` expanded its scope. It now functions as a unified developer experience (DevEx) platform that bridges three distinct contexts: **Runtime Management**, **Task Running**, and **System Bootstrapping/Dotfiles**.
 
-Most of these tools are answers to one underlying problem: a computer’s state accumulates through a long series of manual actions, and that history is never written down. You install a package, edit a config, add a language runtime, enable a service, and after a year nobody, including you, can say exactly what the machine is or how to rebuild it. Every tool you’ve looked at is an attempt to make that state explicit, reproducible, and changeable without fear.
+The differences across these contexts, what problems they solve, and how they relate to traditional tools can be broken down as follows:
 
-Several separate problems are bundled into that one.
+---
 
-**Reproducibility.** You want to recreate a machine, or a fleet of them, from a description rather than from memory. NixOS takes this furthest, describing the whole system in one file. chezmoi and mise’s dotfiles feature cover the config layer, and package lists cover the software layer.
+### 1. Runtime Version Management (The Core)
 
-**Drift.** Even if you started from a clean description, the live machine diverges as you make changes by hand. A useful tool needs a way to compare the description with reality and either report or correct the difference. Ansible and mise bootstrap status both do this, with different levels of ambition.
+* **What it does:** Manages toolchains and language versions (e.g., ensuring project A uses Node v20 and project B uses Node v18).
+* **How it works:** It reads files like `.tool-versions` or `mise.toml` and automatically switches runtimes when you `cd` into a directory using **shims** or environment paths.
+* **Replaces:** `asdf`, `nvm`, `pyenv`, `rbenv`, `sdkman`, etc.
 
-**Layers with different owners and change rates.** A single machine contains several layers that change at different speeds and come from different sources: the OS and system packages (slow, from distro maintainers), language runtimes and developer tools (fast, per project), your personal config files (constant, edited by you), and services or secrets (mixed). Each layer historically had its own tool. The reason there are so many tools is that the problem genuinely spans several layers, and no single mechanism fits all of them well. Pacman handles the OS well, nvm and mise handle runtimes well, and chezmoi handles files well. Each tool tends to be strong in one layer and then extends into neighbors, which is why their scopes overlap.
+### 2. Task Running (The Glue)
 
-**Versioning and rollback.** Packages and tools change constantly, and an update can break something. Being able to pin exact versions, or go back to a previous state, is a separate concern from simply installing things. This is where lockfiles, snapshots, and atomic system generations come in.
+* **What it does:** Defines and runs project-specific workflows, shell scripts, or build steps.
+* **How it works:** You define tasks inside your `mise.toml` using simple commands or scripts. Because `mise` already manages your runtimes, it guarantees that any dependencies required by those tasks (like a specific compiler or CLI tool) are automatically available in the execution path.
+* **Replaces:** `Makefile`, `Taskfile`, `npm scripts` (when used across mixed-language codebases), or custom shell scripts.
 
-**Imperative versus declarative.** This is the deepest design split. Imperative tools run commands that change the machine (“install this, then edit that”). Declarative tools describe the wanted end state and figure out the steps. Most of the apparent differences between tools come from where each one sits on this spectrum, and from whether it tracks state or just applies it once.
+### 3. System Bootstrapping & Dotfiles (The New Frontier)
 
-When you’re comparing tools, you can ask a few questions that cut through the method details. Which layer does it manage? Is its source of truth a declared description, a snapshot, or a series of commands? Does it detect drift, and does it correct it? Can you roll back? Who maintains the packages it installs? Answering those usually makes it clear why a tool exists and whether it fits your problem.
+* **What it does:** Takes a fresh, blank operating system (macOS or Linux) and provisions it into a fully configured development machine using declarative configuration.
+* **How it works:** Through its `mise bootstrap` and `[dotfiles]` features, `mise` can:
+* Install system packages and Homebrew formulae/casks.
+* Create system directories and configuration files with precise file permissions (`[bootstrap.files]` and `[bootstrap.directories]`).
+* Manage dotfiles by symlinking, copying, or tracking them across machines (`[dotfiles]`).
+* Tweak OS-level preferences (like macOS `defaults`).
+
+
+* **Replaces:** Traditional dotfile managers like **GNU Stow**, or heavy system-provisioning frameworks like **Ansible**, **Chef**, or parts of **Nix/nix-darwin** (though lighter weight and less sandboxed than Nix).
+
+
+### Why use `mise` for all of this?
+
+The major advantage is **consolidation**. Historically, a developer's machine required `nvm` for Node, `brew` for CLI packages, `stow` for dotfiles, and a custom `Makefile` to glue everything together. By pulling system bootstrapping and dotfiles into `mise`, you can theoretically take a brand-new computer, install `mise` once, clone your dotfiles repository, and run a single command to rebuild your entire workspace with your tools, configuration files, and preferences intact.
