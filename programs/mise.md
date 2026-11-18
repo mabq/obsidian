@@ -36,3 +36,9 @@ The differences across these contexts, what problems they solve, and how they re
 ### Why use `mise` for all of this?
 
 The major advantage is **consolidation**. Historically, a developer's machine required `nvm` for Node, `brew` for CLI packages, `stow` for dotfiles, and a custom `Makefile` to glue everything together. By pulling system bootstrapping and dotfiles into `mise`, you can theoretically take a brand-new computer, install `mise` once, clone your dotfiles repository, and run a single command to rebuild your entire workspace with your tools, configuration files, and preferences intact.
+
+---
+
+## Tips
+
+Use `[bootstrap.packages]` by default and fallback to `[tools]` for when you need the tool to change versions between projects or it the system package manager does not provide the version you need.
