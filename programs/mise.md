@@ -6,13 +6,14 @@ However, because developers always need to orchestrate surrounding tools, tasks,
 
 The differences across these contexts, what problems they solve, and how they relate to traditional tools can be broken down as follows:
 
----
-
 ### 1. Runtime Version Management (The Core)
 
 * **What it does:** Manages toolchains and language versions (e.g., ensuring project A uses Node v20 and project B uses Node v18).
-* **How it works:** It reads files like `.tool-versions` or `mise.toml` and automatically switches runtimes when you `cd` into a directory using **shims** or environment paths.
+* **How it works:** It reads `mise.toml` and automatically switches runtimes when you `cd` into a directory using **shims** or environment paths.
 * **Replaces:** `asdf`, `nvm`, `pyenv`, `rbenv`, `sdkman`, etc.
+
+> [!Tip]
+>  Use `[bootstrap.packages]` by default and fallback to `[tools]` for when you need the tool to change versions between projects or if the system package manager does not provide the version you need.
 
 ### 2. Task Running (The Glue)
 
@@ -29,16 +30,9 @@ The differences across these contexts, what problems they solve, and how they re
 * Manage dotfiles by symlinking, copying, or tracking them across machines (`[dotfiles]`).
 * Tweak OS-level preferences (like macOS `defaults`).
 
-
 * **Replaces:** Traditional dotfile managers like **GNU Stow**, or heavy system-provisioning frameworks like **Ansible**, **Chef**, or parts of **Nix/nix-darwin** (though lighter weight and less sandboxed than Nix).
-
 
 ### Why use `mise` for all of this?
 
 The major advantage is **consolidation**. Historically, a developer's machine required `nvm` for Node, `brew` for CLI packages, `stow` for dotfiles, and a custom `Makefile` to glue everything together. By pulling system bootstrapping and dotfiles into `mise`, you can theoretically take a brand-new computer, install `mise` once, clone your dotfiles repository, and run a single command to rebuild your entire workspace with your tools, configuration files, and preferences intact.
 
----
-
-## Tips
-
-Use `[bootstrap.packages]` by default and fallback to `[tools]` for when you need the tool to change versions between projects or it the system package manager does not provide the version you need.
