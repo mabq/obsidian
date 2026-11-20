@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "linux/omarchy.md",
-                "mode": "preview",
+                "file": "nix/mynix.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "omarchy"
+              "title": "mynix"
             }
           }
         ]
@@ -185,6 +185,8 @@
   },
   "active": "fd554d1f9b03bc75",
   "lastOpenFiles": [
+    "linux/omarchy.md",
+    "nix/mynix.md",
     "programs/mise.md",
     "TODO.md",
     "ai/mcp.md",
@@ -211,8 +213,6 @@
     "serviauto.md",
     "Untitled 2.md",
     "Untitled 1.md",
-    "linux/desktop-portal.md",
-    "linux/freedesktop.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",

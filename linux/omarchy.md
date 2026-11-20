@@ -32,4 +32,3 @@ Brave:
 # Avoid omarchy themes in Brave (too much contrast in border of pinned tabs)
 sudo mv /etc/brave/policies/managed /etc/brave/policies/managed.disabled`
 ```
-
