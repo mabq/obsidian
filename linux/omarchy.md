@@ -21,3 +21,15 @@ Super nice, but it has a lot of stuff I don't need and misses many things I do n
 My efford would be focused on adjusting Omarchy to my preferences, instead of building a system designed for my preferences.
 
 Use Omarchy as inspiration and learning source instead.
+
+---
+
+**Changes**
+
+Brave:
+
+```sh
+# Avoid omarchy themes in Brave (too much contrast in border of pinned tabs)
+sudo mv /etc/brave/policies/managed /etc/brave/policies/managed.disabled`
+```
+

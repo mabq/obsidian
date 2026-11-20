@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "programs/mise.md",
+                "file": "linux/omarchy.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "mise"
+              "title": "omarchy"
             }
           }
         ]
@@ -185,8 +185,8 @@
   },
   "active": "fd554d1f9b03bc75",
   "lastOpenFiles": [
-    "TODO.md",
     "programs/mise.md",
+    "TODO.md",
     "ai/mcp.md",
     "programs/devbox.md",
     "ai/agents.md.md",
