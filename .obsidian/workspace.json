@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nix/mynix.md",
+                "file": "linux/omarchy.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "mynix"
+              "title": "omarchy"
             }
           }
         ]
@@ -183,10 +183,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "fd554d1f9b03bc75",
+  "active": "52bd0f144b2954eb",
   "lastOpenFiles": [
     "linux/omarchy.md",
-    "nix/mynix.md",
+    "linux/omarchy.md",
     "programs/mise.md",
     "TODO.md",
     "ai/mcp.md",

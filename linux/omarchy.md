@@ -1,34 +1,53 @@
 # Omarchy
 
-Super nice, but it has a lot of stuff I don't need and misses many things I do need.
+### Getting started
+
+- No need for dual-boot.
+- Omarchy installs so fast that it cannot possibly override the full disk with zeros, find out what they do (maybe just delete the partition table).
+- Full-disk encryption:
+	- Reuse the encryption password for the user account (single user account)
+	- Cannot use Bluetooth keyboard on boot to decrypt disk
+- Check the fields that Omarchy ask during installation — maybe put those in top level variables for hosts.
+- Languages — no need for other languages, English is enough.
 
 
-**About the things it has that I don't need**
+### Coming from Mac of Windows
 
-- Much of the Bash code in Omarchy is aimed to provide menus and amenities that any user would need to interact with the system. This is stuff that I actually want to know how it works anyway, so I don't need to be abstracted away.
-
-
-**About the things it does not have that I need**
-
-- Some of those parts are easy to add, yet those changes will need to be replicated manually on every machine where I install Omarchy on. This is a deal breaker already.
-- Some other parts are not so easy to add, for example:
-	- Omarchy uses Bash, I prefer Zsh. I would need to recreate everthing Omarchy expects to find in its Bash configuration into Zsh. Updates could add/change stuff without I knowing about.
-	- I use a different Neovim configuration, which expects some packages to be available on the system, packages that Omarchy does not install by default and that I would need to install manually on every machine.
+- This is the part that Omarchy has that is nice and kind of hard to replicate:
+	- Omarchy menu — everything is in there, not just a launcher.
+	- Screenshots, screen recording — super simple to launch, everything configured ready to be used.
+	- Automatic snapshots on every update — this includes normal files, not just system configuration.
+- All the advancements that Omarchy makes to support Apple silicon go to **Aurora Silicon** which offers installers for many Linux distros, including NixOS.
 
 
-**Conclusion**
+### Navigation
 
-My efford would be focused on adjusting Omarchy to my preferences, instead of building a system designed for my preferences.
+It seems that Hyprland is trying to do too much, there are too many layout modes and not all dispatchers work properly in all of them. The Scrolling layout is not even nearly as polished as in Niri.
 
-Use Omarchy as inspiration and learning source instead.
+The compositor part could be easily replaced in other distros with Niri and have a much better personalized experience. Omarchy overly complicate things in order to please broader audiences.
+
+
+### The top bar
+
+The Omarchy shell is really cool — it is a single process that controls everything: bar, plugins, notifications, launcher, menus, lock-screen, etc.
+
+This is the thing that would be really hard to replicate in other distros. It looks simple at first view but it has a lot of attention to detail and is tightly integrated with the rest of the system.
+
+> [!note]
+> This section made me realize why Omarchy has so many shell scripts — this is what allow you to modify the system programatically!
 
 ---
 
-**Changes**
-
-Brave:
+### Manual changes
 
 ```sh
 # Avoid omarchy themes in Brave (too much contrast in border of pinned tabs)
 sudo mv /etc/brave/policies/managed /etc/brave/policies/managed.disabled`
 ```
+
+
+
+
+
+
+
