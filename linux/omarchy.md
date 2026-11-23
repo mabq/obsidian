@@ -34,7 +34,7 @@ The Omarchy shell is really cool — it is a single process that controls everyt
 This is the thing that would be really hard to replicate in other distros. It looks simple at first view but it has a lot of attention to detail and is tightly integrated with the rest of the system.
 
 > [!note]
-> This section made me realize why Omarchy has so many shell scripts — this is what allow you to modify the system programatically!
+> This section made me realize why Omarchy has so many shell scripts — these allow you to modify the system programatically, which is great because you can even reset the configuration and then just run a script to apply your changes.
 
 ---
 
