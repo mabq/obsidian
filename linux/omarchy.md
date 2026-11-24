@@ -29,12 +29,86 @@ The compositor part could be easily replaced in other distros with Niri and have
 
 ### The top bar
 
-The Omarchy shell is really cool — it is a single process that controls everything: bar, plugins, notifications, launcher, menus, lock-screen, etc.
+The Omarchy shell is really cool — it is a single process that controls everything: top bar, plugins, menu, notifications, OSD, and the lock screen.
 
 This is the thing that would be really hard to replicate in other distros. It looks simple at first view but it has a lot of attention to detail and is tightly integrated with the rest of the system.
 
-> [!note]
-> This section made me realize why Omarchy has so many shell scripts — these allow you to modify the system programatically, which is great because you can even reset the configuration and then just run a script to apply your changes.
+> [!important]
+> Customizations to the bar should be done via scripts to allow updates introduce default changes — once you have your own `shell.json`, it’s canonical, there’s no deep merge, so new default widgets in future Omarchy releases won’t appear on your bar automatically. Applying changes via a script allow you to execute `omarchy bar defaults` to apply newer defaults and they apply your changes on top.
+
+
+### Themes
+
+You have plenty of options here, and appliying a new theme is death simple and fast.
+
+One of the key factors here is the Omarchy shell — being a single tools, everything follows the same style.
+
+
+### Hotkeys
+
+In Omarchy every hotkey sits on a plane, and each plane has one job:
+
+- `Super + key` for system actions: windows, workspaces, layouts, clipboard, core menus, etc.
+- `Super + Shift + key` for launching applications
+- `Super + Ctrl + key` for panels and system menus
+- `Super + Ctrl + Alt + key` for quick actions and notices
+
+
+### Unified Clipboard & History
+
+Simple but very useful.
+
+
+### Reminders
+
+Simple, could be useful.
+
+
+### Notices
+
+Here you can see the attention to detail. For example, if you click a notification with a verification code, it copied the code to the clipboard but does not save it in history.
+
+Everything can be controlled with the keyboard. Put the focus on the notifications with `Super + Ctrl + Alt + Comma`.
+
+
+### Text Extraction & Dictation
+
+Text extraction is awesome — the tool behind it is an opensource project in GitHub with a bunch of starts that I have never heard of. This is the leverage of using something that is community driven. The script could be used in other distros as well.
+
+For dictation I prefer Hex — it is free and completely local. use the `Parakeet v3` model for really good english and spanish support.
+
+
+### Screenshots & Recording
+
+Nice utilities to take screenshots, record the screen (webcam overlay), pick pixel color, capture text, decode QR codes, etc.
+
+Use Tailscale to share between your own devices (locally or remotely), Localsend to share between devices on the same local network and Whatsapp/Signal to share with anyone remotely — you even get the options to transcode videos and photos to lower the resolution before sharing.
+
+
+### Toggles, Idle and Screensaver
+
+A lot of what you change day to day isn’t really a setting. It’s a mode you flip on for an hour and off again — nightlight, do not disturb, idle, screensaver, etc.
+
+
+### Omarchy CLI
+
+AI agents can use Omarchy's CLI commands to customize your configuration.
+
+Scripts are divided into groups, check the page for more information.
+
+Interesting, run `omarchy pkg defaults` to show the list of Omarchy default packages.
+
+
+### Terminal
+
+Nothing fancy. Foot is the default terminal but many other can be used.
+
+Tmux is the default terminal multiplexer (guess this might change in the future).
+
+
+### 
+
+
 
 ---
 
