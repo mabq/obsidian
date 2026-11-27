@@ -106,18 +106,69 @@ Nothing fancy. Foot is the default terminal but many other can be used.
 Tmux is the default terminal multiplexer (guess this might change in the future).
 
 
-### 
+### Neovim
+
+Intro to neovim. Nothing special.
+
+
+### AI
+
+One bar icon and one panel for every AI coding subscription on the machine.
+
+In `/usr/share/omarchy/shell/plugins/agents/README.md` you can find a detail explanation of how it works.
+
+
+### Development tools
+
+Most development tools are installed with `mise` on first use.
+
+I need to learn docker at some point.
+
+
+### Shell tools
+
+A very short explanation of the included shell tools — found out I really don't need `atuin`, `Ctrl-r` (with fzf) is good enough.
+
+
+### Shell functions
+
+A short explanation of the shell functions included by default — there are some interesting ones, like `rsw` to use rsync to sync files to another computer, `fip` for ssh port forwarding and more.
+
+I need to learn about Git worktrees.
+
+
+### TUIs
+
+A brief description of the builtin TUIs.
+
+Any terminal program can get the full app treatment, just run `Install > TUI` from the Omarchy menu.
+
+
+### GUIs
+
+Builtin GUIs overview. Most Omarchy own apps don't work properly (I guess it is my machine).
+
+
+### Browsers
+
+Omarchy automatically adjust themes and some plugins from Chromium-based browsers, not for Firefox/Zen.
+
+You can change the default browser but web-apps will always use Chromium, so that is the only browser you cannot uninstall.
+
+
+### Commercial apps / services
 
 
 
----
 
-### Manual changes
 
-```sh
-# Avoid omarchy themes in Brave (too much contrast in border of pinned tabs)
-sudo mv /etc/brave/policies/managed /etc/brave/policies/managed.disabled`
-```
+
+
+
+
+
+
+
 
 
 

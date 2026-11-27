@@ -22,21 +22,35 @@
             }
           },
           {
-            "id": "250969f317d29cf1",
+            "id": "09e472174c98110e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ai/tools-overview.md",
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
+            }
+          },
+          {
+            "id": "0de2dab8416d76bc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "hardware/monitors.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "tools-overview"
+              "title": "monitors"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -198,9 +212,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "250969f317d29cf1",
+  "active": "0de2dab8416d76bc",
   "lastOpenFiles": [
+    "Untitled.md",
+    "hardware/monitors.md",
     "linux/omarchy.md",
+    "hardware",
+    "agents.md",
     "ai/tools-overview.md",
     "programs/mise.md",
     "TODO.md",
@@ -225,15 +243,12 @@
     "nix/nixos-installation-basic.md",
     "nix/nix-explanations.md",
     "nix/git-analogy.md",
-    "serviauto.md",
-    "Untitled 2.md",
     "nix/mynix/pages",
     "nix/mynix",
     "programs",
     "nix",
     "guides",
     "linux",
-    "disk-setup",
     "disk-setup"
   ]
 }
